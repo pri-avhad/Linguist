@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1021080421019",
+    "firebase_url": "https://linguist-79266.firebaseio.com",
+    "project_id": "linguist-79266",
+    "storage_bucket": "linguist-79266.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021080421019:android:fb8911b8dcc9cfbbf4fc3e",
+        "android_client_info": {
+          "package_name": "metafour.linguist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021080421019-74irhgovm590jjfjfn96jaa8nti9mo3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZszCxAPdTLVaavJgyuIM0qhpp2HvKQmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021080421019-74irhgovm590jjfjfn96jaa8nti9mo3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
