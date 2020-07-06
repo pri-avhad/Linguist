@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget converse(
-    {Function onPressed,
-    String text,
-    Color color,
-    double size,
-    String language}) {
+    {Function onPressed, String text, Color color, String language}) {
   return Container(
     width: double.infinity,
     child: Material(
@@ -37,7 +33,7 @@ Widget converse(
                     text,
                     style: TextStyle(
                       color: color,
-                      fontSize: size,
+                      fontSize: 30,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

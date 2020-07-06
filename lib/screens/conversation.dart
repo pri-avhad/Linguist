@@ -685,40 +685,40 @@ class _ConversationState extends State<Conversation> {
               Expanded(
                   flex: 12,
                   child: converse(
-                      onPressed: () {
-                        setState(() {
-                          lang = 1;
-                          if (!_hasSpeech || speech.isListening == false) {
-                            startListening(
-                              translateFrom: Conversation.code1,
-                              translateTo: Conversation.code2,
-                            );
-                          }
-                        });
-                      },
-                      text: Conversation.text1,
-                      color: Color(0xFF51B57F),
-                      language: Conversation.lang1,
-                      size: 35)),
+                    onPressed: () {
+                      setState(() {
+                        lang = 1;
+                        if (!_hasSpeech || speech.isListening == false) {
+                          startListening(
+                            translateFrom: Conversation.code1,
+                            translateTo: Conversation.code2,
+                          );
+                        }
+                      });
+                    },
+                    text: Conversation.text1,
+                    color: Color(0xFF51B57F),
+                    language: Conversation.lang1,
+                  )),
               Expanded(flex: 1, child: SizedBox()),
               Expanded(
                   flex: 12,
                   child: converse(
-                      onPressed: () {
-                        setState(() {
-                          lang = 2;
-                          if (!_hasSpeech || speech.isListening == false) {
-                            startListening(
-                              translateFrom: Conversation.code2,
-                              translateTo: Conversation.code1,
-                            );
-                          }
-                        });
-                      },
-                      text: Conversation.text2,
-                      color: Color(0xFF059796),
-                      language: Conversation.lang2,
-                      size: 35)),
+                    onPressed: () {
+                      setState(() {
+                        lang = 2;
+                        if (!_hasSpeech || speech.isListening == false) {
+                          startListening(
+                            translateFrom: Conversation.code2,
+                            translateTo: Conversation.code1,
+                          );
+                        }
+                      });
+                    },
+                    text: Conversation.text2,
+                    color: Color(0xFF059796),
+                    language: Conversation.lang2,
+                  )),
               Expanded(flex: 1, child: SizedBox()),
               Expanded(
                 flex: 2,
