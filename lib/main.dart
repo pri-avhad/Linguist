@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linguist/screens/main_screen.dart';
+import 'package:linguist/screens/conversation.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: MaterialApp(
-        home: MainScreen(),
+        home: Conversation(),
         //theme: ThemeData(),
       ),
     );

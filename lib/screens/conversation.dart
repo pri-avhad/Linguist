@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:linguist/widgets.dart';
-import 'package:linguist/screens/main_screen.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
@@ -23,8 +22,8 @@ class Conversation extends StatefulWidget {
     else if (code == 'ro') return 'Romanian';
   }
 
-  static String code1 = MainScreen.translateFrom;
-  static String code2 = MainScreen.translateTo;
+  static String code1 = "en";
+  static String code2 = "en";
   static String lang1 = Conversation.langChange(code1);
   static String lang2 = Conversation.langChange(code2);
   static String text1 = "...";
@@ -49,6 +48,459 @@ class _ConversationState extends State<Conversation> {
   TtsState ttsState = TtsState.stopped;
   get isPlaying => ttsState == TtsState.playing;
   get isStopped => ttsState == TtsState.stopped;
+
+  List<bool> pressedFrom = [false, false, false, false, false, false];
+  List<bool> pressedTo = [false, false, false, false, false, false];
+  Color blue1 = Color(0xFF094F66);
+  Color input = Color(0xFF059796);
+  Color output = Color(0xFF51B57F);
+  Widget buildLanguageDrawer(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setStateOfDrawer) {
+        return Container(
+          color: Color(0xff757575),
+          child: Container(
+            decoration: BoxDecoration(
+              color: blue1,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0)),
+            ),
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              children: [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                    child: Text(
+                      'Languages',
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'English',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedFrom[0]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedFrom[0] ? input : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedFrom = [
+                                      true,
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code1 = 'en';
+                                    Conversation.lang1 =
+                                        Conversation.langChange(
+                                            Conversation.code1);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'Spanish',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedFrom[1]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedFrom[1] ? input : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedFrom = [
+                                      false,
+                                      true,
+                                      false,
+                                      false,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code1 = 'es';
+                                    Conversation.lang1 =
+                                        Conversation.langChange(
+                                            Conversation.code1);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'French',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedFrom[2]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedFrom[2] ? input : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedFrom = [
+                                      false,
+                                      false,
+                                      true,
+                                      false,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code1 = 'fr';
+                                    Conversation.lang1 =
+                                        Conversation.langChange(
+                                            Conversation.code1);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'Italian',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedFrom[3]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedFrom[3] ? input : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedFrom = [
+                                      false,
+                                      false,
+                                      false,
+                                      true,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code1 = 'it';
+                                    Conversation.lang1 =
+                                        Conversation.langChange(
+                                            Conversation.code1);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'Portuguese',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedFrom[4]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedFrom[4] ? input : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedFrom = [
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      true,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code1 = 'pt';
+                                    Conversation.lang1 =
+                                        Conversation.langChange(
+                                            Conversation.code1);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'Romanian',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedFrom[5]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedFrom[5] ? input : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedFrom = [
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      true
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code1 = 'ro';
+                                    Conversation.lang1 =
+                                        Conversation.langChange(
+                                            Conversation.code1);
+                                  });
+                                })
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(0, 15.0, 0, 15),
+                              child: Icon(
+                                Icons.compare_arrows,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'English',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedTo[0]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedTo[0] ? output : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedTo = [
+                                      true,
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code2 = 'en';
+                                    Conversation.lang2 =
+                                        Conversation.langChange(
+                                            Conversation.code2);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'Spanish',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedTo[1]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedTo[1] ? output : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedTo = [
+                                      false,
+                                      true,
+                                      false,
+                                      false,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code2 = 'es';
+                                    Conversation.lang2 =
+                                        Conversation.langChange(
+                                            Conversation.code2);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'French',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedTo[2]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedTo[2] ? output : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedTo = [
+                                      false,
+                                      false,
+                                      true,
+                                      false,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code2 = 'fr';
+                                    Conversation.lang2 =
+                                        Conversation.langChange(
+                                            Conversation.code2);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'Italian',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedTo[3]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedTo[3] ? output : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedTo = [
+                                      false,
+                                      false,
+                                      false,
+                                      true,
+                                      false,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code2 = 'it';
+                                    Conversation.lang2 =
+                                        Conversation.langChange(
+                                            Conversation.code2);
+                                  });
+                                }),
+                            FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Text(
+                                  'Portuguese',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: !pressedTo[4]
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                color: pressedTo[4] ? output : blue1,
+                                onPressed: () {
+                                  setStateOfDrawer(() {
+                                    pressedTo = [
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      true,
+                                      false
+                                    ];
+                                  });
+                                  this.setState(() {
+                                    Conversation.code2 = 'pt';
+                                    Conversation.lang2 =
+                                        Conversation.langChange(
+                                            Conversation.code2);
+                                  });
+                                }),
+                            FlatButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Text(
+                                'Romanian',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: !pressedTo[5]
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ),
+                              color: pressedTo[5] ? output : blue1,
+                              onPressed: () {
+                                setStateOfDrawer(() {
+                                  pressedTo = [
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    true
+                                  ];
+                                });
+                                this.setState(() {
+                                  Conversation.code2 = 'ro';
+                                  Conversation.lang2 = Conversation.langChange(
+                                      Conversation.code2);
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   void initState() {
     super.initState();
@@ -307,8 +759,8 @@ class _ConversationState extends State<Conversation> {
                       ],
                     ),
                     onPressed: () {
-//                      showModalBottomSheet(
-//                          context: context, builder: buildLanguageDrawer);
+                      showModalBottomSheet(
+                          context: context, builder: buildLanguageDrawer);
                     },
                   ),
                 ),
