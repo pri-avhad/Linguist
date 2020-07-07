@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linguist/constants.dart';
+import 'package:linguist/current_model.dart';
+import 'package:provider/provider.dart';
 
 class LanguageDrawer extends StatefulWidget {
   static String translateTo = 'en';
@@ -34,6 +36,10 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
           else
             pressedFrom[i] = false;
         }
+        Provider.of<CurrentLanguages>(context, listen: false).assign(
+            t1: languageData[index][2],
+            o1: languageData[index][1],
+            l1: languageData[index][0]);
         LanguageDrawer.translateFrom = languageData[index][2];
         LanguageDrawer.langChange(LanguageDrawer.translateFrom);
       });
@@ -47,6 +53,10 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
           else
             pressedTo[i] = false;
         }
+        Provider.of<CurrentLanguages>(context, listen: false).assign(
+            t2: languageData[index][2],
+            o2: languageData[index][1],
+            l2: languageData[index][0]);
         LanguageDrawer.translateTo = languageData[index][2];
         LanguageDrawer.langChange(LanguageDrawer.translateTo);
       });

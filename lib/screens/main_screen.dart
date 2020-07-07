@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:linguist/constants.dart';
+import 'package:linguist/current_model.dart';
 import 'package:linguist/screens/lang_drawer.dart';
 import 'package:linguist/widgets.dart';
 import 'package:linguist/screens/conversation.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   static String textFieldInput = '';
@@ -52,51 +54,57 @@ class _MainScreenState extends State<MainScreen> {
                               height: 10,
                             ),
                             Container(
-                              height: 40,
-                              width: double.infinity,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                color: Color(0xFF094F66),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        LanguageDrawer.langChange(
-                                            LanguageDrawer.translateFrom),
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(color: Colors.white),
+                                height: 40,
+                                width: double.infinity,
+                                child: Consumer<CurrentLanguages>(
+                                  builder: (context, current, _) {
+                                    return RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      color: Color(0xFF094F66),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              current.lang1,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Icon(
+                                              Icons.compare_arrows,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              current.lang2,
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Icon(
-                                        Icons.compare_arrows,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        LanguageDrawer.langChange(
-                                            LanguageDrawer.translateTo),
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) => LanguageDrawer());
-                                },
-                              ),
-                            ),
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) =>
+                                                LanguageDrawer());
+                                      },
+                                    );
+                                  },
+                                )),
                             SizedBox(
                               height: 10,
                             ),

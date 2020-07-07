@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:linguist/current_model.dart';
 import 'package:linguist/widgets.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
 import 'package:linguist/constants.dart';
 import 'package:linguist/screens/lang_drawer.dart';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 
 class Conversation extends StatefulWidget {
-  static String code1 = LanguageDrawer.translateFrom;
-  static String code2 = LanguageDrawer.translateTo;
-  static String lang1 = LanguageDrawer.langChange(code1);
-  static String lang2 = LanguageDrawer.langChange(code2);
   static String text1 = "...";
   static String text2 = "...";
   @override
@@ -180,11 +178,11 @@ class _ConversationState extends State<Conversation> {
       if (lang == 1) {
         Conversation.text2 = result;
         if (speech.isNotListening)
-          _speak(text: Conversation.text2, lang: Conversation.code2);
+          _speak(text: Conversation.text2, lang: translateTo);
       } else if (lang == 2) {
         Conversation.text1 = result;
         if (speech.isNotListening)
-          _speak(text: Conversation.text1, lang: Conversation.code1);
+          _speak(text: Conversation.text1, lang: translateFrom);
       }
     });
   }
@@ -209,97 +207,98 @@ class _ConversationState extends State<Conversation> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
-          child: Column(
-            children: [
-              Expanded(flex: 2, child: SizedBox()),
-              Expanded(
-                  flex: 12,
-                  child: converse(
-                    onPressed: () {
-                      setState(() {
-                        lang = 1;
-                        if (!_hasSpeech || speech.isListening == false) {
-                          startListening(
-                            translateFrom: Conversation.code1,
-                            translateTo: Conversation.code2,
-                          );
-                        }
-                      });
-                    },
-                    text: Conversation.text1,
-                    color: Color(0xFF51B57F),
-                    language: Conversation.lang1,
-                  )),
-              Expanded(flex: 1, child: SizedBox()),
-              Expanded(
-                  flex: 12,
-                  child: converse(
-                    onPressed: () {
-                      setState(() {
-                        lang = 2;
-                        if (!_hasSpeech || speech.isListening == false) {
-                          startListening(
-                            translateFrom: Conversation.code2,
-                            translateTo: Conversation.code1,
-                          );
-                        }
-                      });
-                    },
-                    text: Conversation.text2,
-                    color: Color(0xFF059796),
-                    language: Conversation.lang2,
-                  )),
-              Expanded(flex: 1, child: SizedBox()),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  height: 40,
-                  width: double.infinity,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    color: Color(0xFF094F66),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            Conversation.lang1,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(color: Colors.white),
-                          ),
+            padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+            child: Consumer<CurrentLanguages>(builder: (context, current, _) {
+              return Column(
+                children: [
+                  Expanded(flex: 2, child: SizedBox()),
+                  Expanded(
+                      flex: 12,
+                      child: converse(
+                        onPressed: () {
+                          setState(() {
+                            lang = 1;
+                            if (!_hasSpeech || speech.isListening == false) {
+                              startListening(
+                                translateFrom: current.translateId1,
+                                translateTo: current.translateId2,
+                              );
+                            }
+                          });
+                        },
+                        text: Conversation.text1,
+                        color: Color(0xFF51B57F),
+                        language: current.lang1,
+                      )),
+                  Expanded(flex: 1, child: SizedBox()),
+                  Expanded(
+                      flex: 12,
+                      child: converse(
+                        onPressed: () {
+                          setState(() {
+                            lang = 2;
+                            if (!_hasSpeech || speech.isListening == false) {
+                              startListening(
+                                translateFrom: current.translateId2,
+                                translateTo: current.translateId1,
+                              );
+                            }
+                          });
+                        },
+                        text: Conversation.text2,
+                        color: Color(0xFF059796),
+                        language: current.lang2,
+                      )),
+                  Expanded(flex: 1, child: SizedBox()),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: 40,
+                      width: double.infinity,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        color: Color(0xFF094F66),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                current.lang1,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Icon(
+                                Icons.compare_arrows,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                current.lang2,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.compare_arrows,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            Conversation.lang2,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => LanguageDrawer());
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => LanguageDrawer());
-                    },
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+                  )
+                ],
+              );
+            })),
       ),
     );
   }
