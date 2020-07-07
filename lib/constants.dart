@@ -11,50 +11,19 @@ const double volume = 1.0;
 const double pitch = 1.0;
 const double rate = 0.8;
 
-const List<String> kLanguages = [
-  'Arabic',
-  'English',
-  'French',
-  'Gujarati',
-  'Hindi',
-  'Italian',
-  'Kannada',
-  'Marathi',
-  'Portuguese',
-  'Romanian', //?
-  'Spanish',
-  'Tamil',
-  'Urdu',
-];
-
-const List<String> kOcrCodes = [
-  'ara',
-  'eng',
-  'fra',
-  'guj',
-  'hin',
-  'ita',
-  'kan',
-  'mar',
-  'por',
-  'ron',
-  'spa',
-  'tam',
-  'urd',
-]; //
-
-const List<String> kTranslateCodes = [
-  'ar',
-  'en',
-  'fr',
-  'gu',
-  'hi',
-  'it',
-  'kn',
-  'mr',
-  'pt',
-  'ro',
-  'es',
-  'tm',
-  'ur',
+// name,ocr code,translate code,
+List<List<String>> languageData = [
+  ['Arabic', 'ara', 'ar'],
+  ['English', 'eng', 'en'],
+  ['French', 'fra', 'fr'],
+  ['Gujarati', 'guj', 'gu'],
+  ['Hindi', 'hin', 'hi'],
+  ['Italian', 'ita', 'it'],
+  ['Kannada', 'kan', 'kn'],
+  ['Marathi', 'mar', 'mr'],
+  ['Portuguese', 'por', 'pt'],
+  ['Romanian', 'rom', 'ro'],
+  ['Spanish', 'spa', 'es'],
+  ['Tamil', 'tam', 'tm'],
+  ['Urdu', 'urd', 'ur'],
 ];
