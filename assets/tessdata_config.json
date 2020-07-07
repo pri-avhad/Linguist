@@ -1,0 +1,23 @@
+{
+  "files": [
+    "eng.traineddata",
+    "OCRB.traineddata",
+    "pdf.ttf",
+    "financial.traineddata",
+    "ara.traineddata",
+    "fra.traineddata",
+    "guj.traineddata",
+    "hin.traineddata",
+    "ita.traineddata",
+    "kan.traineddata",
+    "mar.traineddata",
+    "por.traineddata",
+    "ron.traineddata",
+    "spa.traineddata",
+    "tam.traineddata",
+    "urd.traineddata",
+    "deu.traineddata",
+    "tel.traineddata",
+    "ben.traineddata"
+  ]
+}
