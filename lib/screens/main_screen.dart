@@ -14,6 +14,7 @@ class MainScreen extends StatefulWidget {
   static var translatedText = '';
   static var inputText = '';
   static int result = 0;
+  static int taskId = 0;
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -123,6 +124,7 @@ class _MainScreenState extends State<MainScreen> {
                                         size: 20,
                                       ),
                                       onPressed: () {
+                                        MainScreen.taskId = 1;
                                         MainScreen.result = 1;
                                         Navigator.push(context,
                                             MaterialPageRoute(
@@ -161,7 +163,23 @@ class _MainScreenState extends State<MainScreen> {
                                       iconSize: 15,
                                       bgColor: blue1,
                                       radius: 25,
-                                      onPressed: () {}),
+                                      onPressed: () {
+                                        //TODO navigate to camera screen for real time translation
+                                      }),
+                                  iconButton(
+                                      icon: Icons.photo,
+                                      iconSize: 15,
+                                      bgColor: blue1,
+                                      radius: 25,
+                                      onPressed: () {
+                                        MainScreen.taskId = 2;
+                                        MainScreen.result = 1;
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return ResultScreen();
+                                        }));
+                                      }),
                                   iconButton(
                                       icon: Icons.mic,
                                       iconSize: 15,

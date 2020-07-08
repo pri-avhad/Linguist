@@ -149,10 +149,18 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   Future<void> getResult() async {
-    if (MainScreen.inputText != '')
-      translate();
-    else
-      await _showMyDialog();
+    if (MainScreen.taskId == 1) {
+      if (MainScreen.inputText != '')
+        translate();
+      else
+        await _showMyDialog();
+    } else if (MainScreen.taskId == 2) {
+      //TODO take image from gallery
+      //TODO crop the image (Can take the code from the linguist file which we made for inheritance)
+      //TODO identify text using tesseract if image input is not null
+      //TODO assign identified text to MainScreen.inputText
+      //TODO call translate()
+    }
   }
 
   void backButton() {
