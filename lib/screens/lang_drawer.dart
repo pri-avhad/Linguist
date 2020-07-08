@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
 import 'package:provider/provider.dart';
+import 'package:linguist/screens/main_screen.dart';
+import 'package:linguist/screens/result_screen.dart';
 
 class LanguageDrawer extends StatefulWidget {
-  static String translateTo = 'en';
-  static String translateFrom = 'en';
-  static String langChange(String code) {
-    for (int i = 0; i < languageData.length; i++) {
-      if (code == languageData[i][2]) return languageData[i][0];
-    }
-  }
-
   @override
   _LanguageDrawerState createState() => _LanguageDrawerState();
 }
@@ -40,8 +34,6 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
             t1: languageData[index][2],
             o1: languageData[index][1],
             l1: languageData[index][0]);
-        LanguageDrawer.translateFrom = languageData[index][2];
-        LanguageDrawer.langChange(LanguageDrawer.translateFrom);
       });
     }
 
@@ -57,8 +49,10 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
             t2: languageData[index][2],
             o2: languageData[index][1],
             l2: languageData[index][0]);
-        LanguageDrawer.translateTo = languageData[index][2];
-        LanguageDrawer.langChange(LanguageDrawer.translateTo);
+        if (MainScreen.result != 0)
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ResultScreen();
+          }));
       });
     }
 
@@ -115,67 +109,87 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
     return Container(
       color: Color(0xff757575),
       child: Container(
-        decoration: BoxDecoration(
-          color: blue1,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-        ),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                child: Text(
-                  'Languages',
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600),
-                )),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: getFromDrawer(),
-                    ),
+          decoration: BoxDecoration(
+            color: blue1,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0)),
+          ),
+          child: Consumer<CurrentLanguages>(builder: (context, current, _) {
+            return ListView(
+              scrollDirection: Axis.vertical,
+              children: [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                    child: Text(
+                      'Languages',
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: (MainScreen.result == 0)
+                              ? getFromDrawer()
+                              : [
+                                  FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    child: Text(
+                                      current.lang1,
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    color: input,
+                                    onPressed: () {},
+                                  ),
+                                ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(0, 15.0, 0, 15),
+                              child: Icon(
+                                Icons.compare_arrows,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: getToDrawer(),
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 15),
-                          child: Icon(
-                            Icons.compare_arrows,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: getToDrawer(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+                ),
+              ],
+            );
+          })),
     );
   }
 }

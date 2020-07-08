@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:linguist/constants.dart';
+import 'package:linguist/screens/result_screen.dart';
 
 class CurrentLanguages extends ChangeNotifier {
   String translateId1 = languageData[0][2];
@@ -22,6 +23,9 @@ class CurrentLanguages extends ChangeNotifier {
     if (o2 != null) ocrId2 = o2;
     if (l1 != null) lang1 = l1;
     if (l2 != null) lang2 = l2;
+    ResultScreen.translateFrom = translateId1;
+    ResultScreen.translateTo = translateId2;
+
     notifyListeners();
   }
 }

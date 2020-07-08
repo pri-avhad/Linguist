@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
 import 'package:linguist/screens/lang_drawer.dart';
+import 'package:linguist/screens/result_screen.dart';
+import 'package:linguist/screens/stt_drawer.dart';
 import 'package:linguist/widgets.dart';
 import 'package:linguist/screens/conversation.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
-  static String textFieldInput = '';
-  static var translatedText = '...';
-  static var inputText = '...';
+  static var translatedText = '';
+  static var inputText = '';
   static int result = 0;
-  static int taskId;
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -118,11 +118,18 @@ class _MainScreenState extends State<MainScreen> {
                                         EdgeInsets.fromLTRB(10, 5, 0, 5),
                                     suffixIcon: IconButton(
                                       icon: Icon(
-                                        Icons.mic,
+                                        Icons.search,
                                         color: blue1,
                                         size: 20,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        MainScreen.result = 1;
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return ResultScreen();
+                                        }));
+                                      },
                                     ),
                                     labelText: 'Text Input',
                                     labelStyle: TextStyle(
@@ -134,41 +141,52 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                   ),
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    MainScreen.inputText = value;
+                                  },
                                 ),
                               ],
                             ),
                             SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                iconButton(
-                                    icon: Icons.camera_alt,
-                                    iconSize: 15,
-                                    bgColor: blue1,
-                                    radius: 25,
-                                    onPressed: () {}),
-                                iconButton(
-                                    icon: Icons.question_answer,
-                                    iconSize: 15,
-                                    bgColor: blue1,
-                                    radius: 25,
-                                    onPressed: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return Conversation();
-                                      }));
-                                    }),
-                                iconButton(
-                                    icon: Icons.photo,
-                                    iconSize: 15,
-                                    bgColor: blue1,
-                                    radius: 25,
-                                    onPressed: () {}),
-                              ],
-                            )
+                            Consumer<CurrentLanguages>(
+                                builder: (context, current, _) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  iconButton(
+                                      icon: Icons.camera_alt,
+                                      iconSize: 15,
+                                      bgColor: blue1,
+                                      radius: 25,
+                                      onPressed: () {}),
+                                  iconButton(
+                                      icon: Icons.mic,
+                                      iconSize: 15,
+                                      bgColor: blue1,
+                                      radius: 25,
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) => SttDrawer());
+                                      }),
+                                  iconButton(
+                                      icon: Icons.question_answer,
+                                      iconSize: 15,
+                                      bgColor: blue1,
+                                      radius: 25,
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return Conversation();
+                                        }));
+                                      }),
+                                ],
+                              );
+                            }),
                           ],
                         )),
                   ),
