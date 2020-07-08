@@ -11,8 +11,11 @@ import 'package:linguist/widgets.dart';
 import 'package:linguist/screens/conversation.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
+import 'package:tesseract_ocr/tesseract_ocr.dart';
+import 'package:file_picker/file_picker.dart';
 
- var firstCamera;
+var firstCamera;
+var imageFile;
 
 Future<void> camera() async {
 
@@ -26,6 +29,7 @@ Future<void> camera() async {
 
 
 class MainScreen extends StatefulWidget {
+
   static var translatedText = '';
   static var inputText = '';
   static int result = 0;
@@ -36,6 +40,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String _extractText = '';
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -191,15 +197,13 @@ class _MainScreenState extends State<MainScreen> {
                                       iconSize: 15,
                                       bgColor: blue1,
                                       radius: 25,
-                                      onPressed: () {
-                                        MainScreen.taskId = 2;
-                                        MainScreen.result = 1;
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return ResultScreen();
-                                        }));
-                                      }),
+                                      onPressed: () async {
+                                        imageFile =
+                                        await FilePicker.getFilePath(type: FileType.image);
+                                        _extractText = await TesseractOcr.extractText(imageFile,
+                                            language: 'guj');
+                                        print(_extractText);
+                                      },),
                                   iconButton(
                                       icon: Icons.mic,
                                       iconSize: 15,
