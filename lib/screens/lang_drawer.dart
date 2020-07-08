@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
+import 'package:linguist/screens/conversation.dart';
 import 'package:provider/provider.dart';
 import 'package:linguist/screens/main_screen.dart';
 import 'package:linguist/screens/result_screen.dart';
@@ -30,6 +31,8 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
           else
             pressedFrom[i] = false;
         }
+        Conversation.text1 = '...';
+        Conversation.text2 = '...';
         Provider.of<CurrentLanguages>(context, listen: false).assign(
             t1: languageData[index][2],
             o1: languageData[index][1],
@@ -49,10 +52,14 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
             t2: languageData[index][2],
             o2: languageData[index][1],
             l2: languageData[index][0]);
-        if (MainScreen.result != 0)
+        Conversation.text2 = '...';
+        Conversation.text1 = '...';
+        if (MainScreen.result != 0) {
+          MainScreen.result = 1;
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ResultScreen();
           }));
+        }
       });
     }
 
