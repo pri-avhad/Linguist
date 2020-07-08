@@ -34,6 +34,7 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
         Conversation.text1 = '...';
         Conversation.text2 = '...';
         Provider.of<CurrentLanguages>(context, listen: false).assign(
+//            s1: languageData[index][3],
             t1: languageData[index][2],
             o1: languageData[index][1],
             l1: languageData[index][0]);
@@ -49,6 +50,7 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
             pressedTo[i] = false;
         }
         Provider.of<CurrentLanguages>(context, listen: false).assign(
+//            s2: languageData[index][3],
             t2: languageData[index][2],
             o2: languageData[index][1],
             l2: languageData[index][0]);

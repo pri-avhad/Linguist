@@ -27,3 +27,18 @@ List<List<String>> languageData = [
   ['Romanian', 'rom', 'ro'],
   ['Spanish', 'spa', 'es'],
 ];
+//List<List<String>> languageData = [
+//  ['English', 'eng', 'en', 'en'],
+//  ['Kannada', 'kan', 'kn', 'kn-IN'],
+//  ['Marathi', 'mar', 'mr', 'mr-IN'],
+//  ['Gujarati', 'guj', 'gu', 'gu-IN'],
+//  ['Hindi', 'hin', 'hi', 'hi-IN'],
+//  ['Tamil', 'tam', 'tm', 'ta-IN'],
+//  ['Urdu', 'urd', 'ur', 'ur-PK'],
+//  ['Arabic', 'ara', 'ar', 'ar-SA'],
+//  ['French', 'fra', 'fr', 'fr-CA'],
+//  ['Italian', 'ita', 'it', 'it-IT'],
+//  ['Portuguese', 'por', 'pt', 'pt-BR'],
+//  ['Romanian', 'rom', 'ro', 'ro-RO'],
+//  ['Spanish', 'spa', 'es', 'es-US'],
+//];

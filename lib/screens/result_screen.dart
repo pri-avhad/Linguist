@@ -27,7 +27,7 @@ class _ResultScreenState extends State<ResultScreen> {
   get isPlaying => ttsState == TtsState.playing;
   get isStopped => ttsState == TtsState.stopped;
 
-  initTts() {
+  Future initTts() async {
     flutterTts = FlutterTts();
     flutterTts.setStartHandler(() {
       setState(() {
@@ -53,7 +53,11 @@ class _ResultScreenState extends State<ResultScreen> {
     await flutterTts.setVolume(volume);
     await flutterTts.setSpeechRate(rate);
     await flutterTts.setPitch(pitch);
-    await flutterTts.setLanguage(lang);
+    if ((await flutterTts.isLanguageAvailable(lang))) {
+      await flutterTts.setLanguage(lang);
+      print('there');
+    } else
+      await flutterTts.setLanguage('en');
 
     if (text != null) {
       if (text.isNotEmpty) {
@@ -239,7 +243,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   if (MainScreen.result == 2)
                                     _speak(
                                         text: MainScreen.translatedText,
-                                        lang: current.translateId1);
+                                        lang: current.translateId2);
                                 },
                               ),
                             ),
@@ -314,7 +318,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                   if (MainScreen.result == 2)
                                     _speak(
                                         text: MainScreen.inputText,
-                                        lang: current.translateId2);
+                                        lang: current.translateId1);
                                 },
                               ),
                             ),

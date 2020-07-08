@@ -182,7 +182,7 @@ class _ConversationState extends State<Conversation> {
       } else if (lang == 2) {
         Conversation.text1 = result;
         if (speech.isNotListening)
-          _speak(text: Conversation.text1, lang: translateFrom);
+          _speak(text: Conversation.text1, lang: translateTo);
       }
     });
   }
