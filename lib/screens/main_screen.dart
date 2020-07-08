@@ -14,18 +14,22 @@ import 'package:camera/camera.dart';
 import 'package:tesseract_ocr/tesseract_ocr.dart';
 import 'package:file_picker/file_picker.dart';
 
-var firstCamera;
+
 var imageFile;
+var firstCamera;
 
-Future<void> camera() async {
-
-  WidgetsFlutterBinding.ensureInitialized();
-  // Obtain a list of the available cameras on the device.
-  final cameras = await availableCameras();
-  // Get a specific camera from the list of available cameras.
-  firstCamera = cameras.first;
-
-}
+//Future<void> camera() async {
+//
+//  WidgetsFlutterBinding.ensureInitialized();
+//  // Obtain a list of the available cameras on the device.
+//  final cameras = await availableCameras();
+//  // Get a specific camera from the list of available cameras.
+//  final firstCamera = cameras.first;
+//  return firstCamera;
+//
+//
+//
+//}
 
 
 class MainScreen extends StatefulWidget {
@@ -184,13 +188,19 @@ class _MainScreenState extends State<MainScreen> {
                                       iconSize: 15,
                                       bgColor: blue1,
                                       radius: 25,
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        WidgetsFlutterBinding.ensureInitialized();
+                                        // Obtain a list of the available cameras on the device.
+                                        final cameras = await availableCameras();
+                                        // Get a specific camera from the list of available cameras.
+                                        firstCamera = cameras.first;
                                         Navigator.push(context,
                                         MaterialPageRoute(
                                           builder:(context){
                                             return TakePictureScreen(camera: firstCamera);
                                           }
-                                        ));//TODO navigate to camera screen for real time translation
+                                        ),
+                                        );//TODO navigate to camera screen for real time translation
                                       }),
                                   iconButton(
                                       icon: Icons.photo,
