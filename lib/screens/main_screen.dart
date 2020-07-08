@@ -3,12 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
+import 'package:linguist/screens/cam.dart';
 import 'package:linguist/screens/lang_drawer.dart';
 import 'package:linguist/screens/result_screen.dart';
 import 'package:linguist/screens/stt_drawer.dart';
 import 'package:linguist/widgets.dart';
 import 'package:linguist/screens/conversation.dart';
 import 'package:provider/provider.dart';
+import 'package:camera/camera.dart';
+
+ var firstCamera;
+
+Future<void> camera() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  // Obtain a list of the available cameras on the device.
+  final cameras = await availableCameras();
+  // Get a specific camera from the list of available cameras.
+  firstCamera = cameras.first;
+
+}
+
 
 class MainScreen extends StatefulWidget {
   static var translatedText = '';
@@ -164,7 +179,12 @@ class _MainScreenState extends State<MainScreen> {
                                       bgColor: blue1,
                                       radius: 25,
                                       onPressed: () {
-                                        //TODO navigate to camera screen for real time translation
+                                        Navigator.push(context,
+                                        MaterialPageRoute(
+                                          builder:(context){
+                                            return TakePictureScreen(camera: firstCamera);
+                                          }
+                                        ));//TODO navigate to camera screen for real time translation
                                       }),
                                   iconButton(
                                       icon: Icons.photo,
