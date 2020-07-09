@@ -206,17 +206,14 @@ class _MainScreenState extends State<MainScreen> {
                                     iconSize: 15,
                                     bgColor: blue1,
                                     radius: 25,
-                                    onPressed: () async {
-                                      setState(() {
-                                        MainScreen.taskId = 2;
-                                        MainScreen.result = 1;
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return ResultScreen();
-                                        }));
-                                      });
-//
+                                    onPressed: () {
+                                      MainScreen.taskId = 2;
+                                      MainScreen.result = 1;
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return ResultScreen();
+                                      }));
+
 //                                      imageFile = await FilePicker.getFilePath(
 //                                          type: FileType.image);
 //                                      _extractText =

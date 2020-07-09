@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:tesseract_ocr/tesseract_ocr.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:linguist/screens/textreg.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
@@ -82,17 +81,36 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                   ),
                   Positioned.fill(
                     child: Opacity(
-                        opacity: 0.7,
-                        child: Container(
-                          height: 200.0,
-                          child: Center(
-                            child: Text(translatedOcrResult,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.cyan,
-                                )),
-                          ),
-                        )),
+                      opacity: 0.7,
+                      child: Container(
+                        height: 200.0,
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: ListView(
+                                scrollDirection: Axis.vertical,
+                                children: <Widget>[
+                                  Container(
+                                    color: Colors.white,
+                                    child: Text(translatedOcrResult,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: Colors.cyan,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               );
@@ -153,57 +171,3 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     });
   }
 }
-
-//
-//// A widget that displays the picture taken by the user.
-//class DisplayPictureScreen extends StatefulWidget {
-//  final String imagePath;
-//
-//  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
-//
-//  @override
-//  _DisplayPictureScreenState createState() => _DisplayPictureScreenState();
-//}
-//
-//class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
-//  String ocrResult = '...';
-//
-//  @override
-//  Widget build(BuildContext context) {
-//
-//
-//    return Consumer<CurrentLanguages>(builder: (context, current, _) {
-//      return Container(
-//        color: Colors.white,
-//        child: Column(
-//          children: <Widget>[
-//            Expanded(child: Image.file(File(widget.imagePath))),
-//            Expanded(
-//              child: Text(ocrResult),
-//            ),
-//            FlatButton(
-//              child: Text(
-//                widget.imagePath,
-//                style: TextStyle(color: Colors.red),
-//              ),
-//              onPressed: () async {
-//                print(widget.imagePath);
-//                String result = await getOcr(widget.imagePath, current.ocrId1);
-//                setState(() {
-//                  ocrResult = result;
-//                });
-//                //Provider.of<CurrentLanguages>(context).ocrId1
-////              Navigator.push(
-////                  context,
-////                  MaterialPageRoute(
-////                      builder: (context) => TextRecognition(
-////                            image: imagePath,
-////                          )));
-//              },
-//            )
-//          ],
-//        ),
-//      );
-//    });
-//  }
-//}

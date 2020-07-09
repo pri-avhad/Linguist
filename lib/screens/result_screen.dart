@@ -161,10 +161,23 @@ class _ResultScreenState extends State<ResultScreen> {
     } else if (MainScreen.taskId == 2) {
       imageFile = await FilePicker.getFilePath(type: FileType.image);
       if (imageFile != null) {
-        //calling the cropImage func
-        setState(() {
-          cropImage(imageFile);
-        });
+        //TODO calling the cropImage func
+        String _extractText;
+        _extractText = await TesseractOcr.extractText(imageFile,
+            language:
+                Provider.of<CurrentLanguages>(context, listen: false).ocrId1);
+        print(_extractText);
+        if (_extractText != null) {
+          setState(() {
+            MainScreen.inputText = _extractText;
+          });
+          translate();
+        } else {
+          await _showMyDialog();
+        }
+//        setState(() {
+//          cropImage(imageFile);
+//        });
       }
       //end of inner if
       else
@@ -179,53 +192,57 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   // function to crop the image
-  Future<void> cropImage(var img) async {
-    var cropped = await ImageCropper.cropImage(
-        sourcePath: img.path,
-        aspectRatioPresets: Platform.isAndroid
-            ? [
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio16x9
-              ]
-            : [
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio5x3,
-                CropAspectRatioPreset.ratio5x4,
-                CropAspectRatioPreset.ratio7x5,
-                CropAspectRatioPreset.ratio16x9
-              ],
-        androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: blue1,
-            toolbarWidgetColor: Colors.white,
-            activeControlsWidgetColor: blue1,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: IOSUiSettings(
-          title: 'Cropper',
-        ));
-    if (cropped != null) {
-      setState(() {
-        imageFile = cropped;
-      });
-      //await getOcr(imageFile);
-      String _extractText;
-      _extractText = await TesseractOcr.extractText(imageFile,
-          language: Provider.of<CurrentLanguages>(context).ocrId1);
-      print(_extractText);
-      setState(() {
-        MainScreen.inputText = _extractText;
-      });
-      translate();
-    } else
-      await _showMyDialog();
-  }
+//  Future<void> cropImage(var img) async {
+//    var cropped = await ImageCropper.cropImage(
+//        sourcePath: img.path,
+//        aspectRatioPresets: Platform.isAndroid
+//            ? [
+//                CropAspectRatioPreset.square,
+//                CropAspectRatioPreset.ratio3x2,
+//                CropAspectRatioPreset.original,
+//                CropAspectRatioPreset.ratio4x3,
+//                CropAspectRatioPreset.ratio16x9
+//              ]
+//            : [
+//                CropAspectRatioPreset.original,
+//                CropAspectRatioPreset.square,
+//                CropAspectRatioPreset.ratio3x2,
+//                CropAspectRatioPreset.ratio4x3,
+//                CropAspectRatioPreset.ratio5x3,
+//                CropAspectRatioPreset.ratio5x4,
+//                CropAspectRatioPreset.ratio7x5,
+//                CropAspectRatioPreset.ratio16x9
+//              ],
+//        androidUiSettings: AndroidUiSettings(
+//            toolbarTitle: 'Cropper',
+//            toolbarColor: blue1,
+//            toolbarWidgetColor: Colors.white,
+//            activeControlsWidgetColor: blue1,
+//            initAspectRatio: CropAspectRatioPreset.original,
+//            lockAspectRatio: false),
+//        iosUiSettings: IOSUiSettings(
+//          title: 'Cropper',
+//        ));
+//    if (cropped != null) {
+//      setState(() {
+//        imageFile = cropped;
+//      });
+//      //await getOcr(imageFile);
+//      String _extractText;
+//      _extractText = await TesseractOcr.extractText(imageFile,
+//          language: Provider.of<CurrentLanguages>(context).ocrId1);
+//      print(_extractText);
+//      if (_extractText != null) {
+//        setState(() {
+//          MainScreen.inputText = _extractText;
+//        });
+//        translate();
+//      } else {
+//        await _showMyDialog();
+//      }
+//    } else
+//      await _showMyDialog();
+//  }
 
   void backButton() {
     MainScreen.result = 0;
