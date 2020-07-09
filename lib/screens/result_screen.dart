@@ -3,10 +3,14 @@ import 'package:linguist/constants.dart';
 import 'package:linguist/screens/main_screen.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 import 'package:provider/provider.dart';
 import 'package:linguist/current_model.dart';
 import 'package:linguist/screens/lang_drawer.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:tesseract_ocr/tesseract_ocr.dart';
 
 class ResultScreen extends StatefulWidget {
   static String translateFrom = 'en';
@@ -155,12 +159,72 @@ class _ResultScreenState extends State<ResultScreen> {
       else
         await _showMyDialog();
     } else if (MainScreen.taskId == 2) {
+      imageFile = await FilePicker.getFilePath(type: FileType.image);
+      if (imageFile != null) {
+        //calling the cropImage func
+        setState(() {
+          cropImage(imageFile);
+        });
+      }
+      //end of inner if
+      else
+        //if image input is empty then displays a dialog box which redirects to main screen
+        await _showMyDialog();
       //TODO take image from gallery
       //TODO crop the image (Can take the code from the linguist file which we made for inheritance)
       //TODO identify text using tesseract if image input is not null
       //TODO assign identified text to MainScreen.inputText
       //TODO call translate()
     }
+  }
+
+  // function to crop the image
+  Future<void> cropImage(var img) async {
+    var cropped = await ImageCropper.cropImage(
+        sourcePath: img.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: blue1,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: blue1,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: 'Cropper',
+        ));
+    if (cropped != null) {
+      setState(() {
+        imageFile = cropped;
+      });
+      //await getOcr(imageFile);
+      String _extractText;
+      _extractText = await TesseractOcr.extractText(imageFile,
+          language: Provider.of<CurrentLanguages>(context).ocrId1);
+      print(_extractText);
+      setState(() {
+        MainScreen.inputText = _extractText;
+      });
+      translate();
+    } else
+      await _showMyDialog();
   }
 
   void backButton() {

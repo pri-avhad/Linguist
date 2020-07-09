@@ -14,7 +14,6 @@ import 'package:camera/camera.dart';
 import 'package:tesseract_ocr/tesseract_ocr.dart';
 import 'package:file_picker/file_picker.dart';
 
-
 var imageFile;
 var firstCamera;
 
@@ -31,9 +30,7 @@ var firstCamera;
 //
 //}
 
-
 class MainScreen extends StatefulWidget {
-
   static var translatedText = '';
   static var inputText = '';
   static int result = 0;
@@ -189,31 +186,46 @@ class _MainScreenState extends State<MainScreen> {
                                       bgColor: blue1,
                                       radius: 25,
                                       onPressed: () async {
-                                        WidgetsFlutterBinding.ensureInitialized();
+                                        WidgetsFlutterBinding
+                                            .ensureInitialized();
                                         // Obtain a list of the available cameras on the device.
-                                        final cameras = await availableCameras();
+                                        final cameras =
+                                            await availableCameras();
                                         // Get a specific camera from the list of available cameras.
                                         firstCamera = cameras.first;
-                                        Navigator.push(context,
-                                        MaterialPageRoute(
-                                          builder:(context){
-                                            return TakePictureScreen(camera: firstCamera);
-                                          }
-                                        ),
-                                        );//TODO navigate to camera screen for real time translation
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) {
+                                            return TakePictureScreen(
+                                                camera: firstCamera);
+                                          }),
+                                        ); //TODO navigate to camera screen for real time translation
                                       }),
                                   iconButton(
-                                      icon: Icons.photo,
-                                      iconSize: 15,
-                                      bgColor: blue1,
-                                      radius: 25,
-                                      onPressed: () async {
-                                        imageFile =
-                                        await FilePicker.getFilePath(type: FileType.image);
-                                        _extractText = await TesseractOcr.extractText(imageFile,
-                                            language: 'guj');
-                                        print(_extractText);
-                                      },),
+                                    icon: Icons.photo,
+                                    iconSize: 15,
+                                    bgColor: blue1,
+                                    radius: 25,
+                                    onPressed: () async {
+                                      setState(() {
+                                        MainScreen.taskId = 2;
+                                        MainScreen.result = 1;
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return ResultScreen();
+                                        }));
+                                      });
+//
+//                                      imageFile = await FilePicker.getFilePath(
+//                                          type: FileType.image);
+//                                      _extractText =
+//                                          await TesseractOcr.extractText(
+//                                              imageFile,
+//                                              language: current.ocrId1);
+//                                      print(_extractText);
+                                    },
+                                  ),
                                   iconButton(
                                       icon: Icons.mic,
                                       iconSize: 15,

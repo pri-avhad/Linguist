@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:linguist/constants.dart';
+import 'package:linguist/current_model.dart';
+import 'package:provider/provider.dart';
+import 'package:tesseract_ocr/tesseract_ocr.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:linguist/screens/textreg.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -21,6 +25,7 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class TakePictureScreenState extends State<TakePictureScreen> {
+  String translatedOcrResult = 'Click to scan';
   CameraController _controller;
   Future<void> _initializeControllerFuture;
 
@@ -32,7 +37,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // Get a specific camera from the list of available cameras.
       widget.camera,
       // Define the resolution to use.
-      ResolutionPreset.medium,
+      ResolutionPreset.high,
     );
 
     // Next, initialize the controller.
@@ -48,98 +53,157 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If the Future is complete, display the preview.
-            return Stack(
-              alignment: FractionalOffset.center,
-              children: <Widget>[
-                Positioned.fill(
-                  child: AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: CameraPreview(_controller)),
-                ),
-                Positioned.fill(
-                  child: Opacity(
-                      opacity: 0.5,
-                      child: Container(
-                        height: 200.0,
-                        color: Colors.red,
-                        child: Center(
-                          child: Text("Text to overlay", style: TextStyle(fontSize: 20.0, color: Colors.white,)),
-                        ),
-                      )),
-                ),
-              ],
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.camera_alt,
-          size: 20.0,
+    Future<String> getOcr(image, language) async {
+      String _extractText;
+      print('starting');
+      _extractText = await TesseractOcr.extractText(
+        image,
+        language: language,
+      );
+      print(_extractText);
+      return _extractText;
+    }
+
+    return Consumer<CurrentLanguages>(builder: (context, current, _) {
+      return Scaffold(
+//        appBar: AppBar(),
+        body: FutureBuilder<void>(
+          future: _initializeControllerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              // If the Future is complete, display the preview.
+              return Stack(
+                alignment: FractionalOffset.center,
+                children: <Widget>[
+                  Positioned.fill(
+                    child: AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: CameraPreview(_controller)),
+                  ),
+                  Positioned.fill(
+                    child: Opacity(
+                        opacity: 0.7,
+                        child: Container(
+                          height: 200.0,
+                          child: Center(
+                            child: Text(translatedOcrResult,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.cyan,
+                                )),
+                          ),
+                        )),
+                  ),
+                ],
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
         ),
-        onPressed: () async {
-          try {
-            // Ensure that the camera is initialized.
-            await _initializeControllerFuture;
-            final path = join(
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
-            );
-
-            await _controller.takePicture(path);
-
-            // If the picture was taken, display it on a new screen.
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path),
-              ),
-            );
-          } catch (e) {
-            // If an error occurs, log the error to the console.
-            print(e);
-          }
-        },
-      ),
-    );
-  }
-}
-
-// A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
-
-  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TextRecognition(
-                  image: imagePath,
-                )));
-    return Scaffold(
-      appBar: AppBar(title: Text('Display the Picture')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      body: Column(
-        children: <Widget>[
-          Expanded(child: Image.file(File(imagePath))),
-          Expanded(
-            child: Text(TextRecognition.extractedText ?? 'loading'),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: blue1,
+          child: Icon(
+            Icons.camera_alt,
+            size: 20.0,
           ),
-        ],
-      ),
-    );
+          onPressed: () async {
+            setState(() {
+              translatedOcrResult = 'LOADING...';
+            });
+            try {
+              // Ensure that the camera is initialized.
+              await _initializeControllerFuture;
+              final path = join(
+                (await getTemporaryDirectory()).path,
+                '${DateTime.now()}.png',
+              );
+
+              await _controller.takePicture(path);
+
+              print(path);
+              String ocrResult = await getOcr(path, current.ocrId1);
+              String text = await FirebaseLanguage.instance
+                  .languageTranslator(
+                      current.translateId1, current.translateId2)
+                  .processText(ocrResult);
+//                setState(() {
+//                  MainScreen.translatedText = text;
+//                  MainScreen.result = 2;
+//                });
+              setState(() {
+                translatedOcrResult = text;
+                print(translatedOcrResult);
+              });
+
+              // If the picture was taken, display it on a new screen.
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(
+//                builder: (context) => DisplayPictureScreen(imagePath: path),
+//              ),
+//            );
+            } catch (e) {
+              // If an error occurs, log the error to the console.
+              print(e);
+            }
+          },
+        ),
+      );
+    });
   }
 }
+
+//
+//// A widget that displays the picture taken by the user.
+//class DisplayPictureScreen extends StatefulWidget {
+//  final String imagePath;
+//
+//  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
+//
+//  @override
+//  _DisplayPictureScreenState createState() => _DisplayPictureScreenState();
+//}
+//
+//class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
+//  String ocrResult = '...';
+//
+//  @override
+//  Widget build(BuildContext context) {
+//
+//
+//    return Consumer<CurrentLanguages>(builder: (context, current, _) {
+//      return Container(
+//        color: Colors.white,
+//        child: Column(
+//          children: <Widget>[
+//            Expanded(child: Image.file(File(widget.imagePath))),
+//            Expanded(
+//              child: Text(ocrResult),
+//            ),
+//            FlatButton(
+//              child: Text(
+//                widget.imagePath,
+//                style: TextStyle(color: Colors.red),
+//              ),
+//              onPressed: () async {
+//                print(widget.imagePath);
+//                String result = await getOcr(widget.imagePath, current.ocrId1);
+//                setState(() {
+//                  ocrResult = result;
+//                });
+//                //Provider.of<CurrentLanguages>(context).ocrId1
+////              Navigator.push(
+////                  context,
+////                  MaterialPageRoute(
+////                      builder: (context) => TextRecognition(
+////                            image: imagePath,
+////                          )));
+//              },
+//            )
+//          ],
+//        ),
+//      );
+//    });
+//  }
+//}
