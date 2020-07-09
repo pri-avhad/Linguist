@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:linguist/screens/textreg.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -49,29 +49,43 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-      ),
+      appBar: AppBar(),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // If the Future is complete, display the preview.
-            return CameraPreview(_controller);
+            return Stack(
+              alignment: FractionalOffset.center,
+              children: <Widget>[
+                Positioned.fill(
+                  child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: CameraPreview(_controller)),
+                ),
+                Positioned.fill(
+                  child: Opacity(
+                      opacity: 0.5,
+                      child: Container(
+                        height: 200.0,
+                        color: Colors.red,
+                        child: Center(
+                          child: Text("Text to overlay", style: TextStyle(fontSize: 20.0, color: Colors.white,)),
+                        ),
+                      )),
+                ),
+              ],
+            );
           } else {
             return Center(child: CircularProgressIndicator());
           }
         },
       ),
-
       floatingActionButton: FloatingActionButton(
-
         child: Icon(
           Icons.camera_alt,
           size: 20.0,
-
         ),
-
         onPressed: () async {
           try {
             // Ensure that the camera is initialized.
@@ -108,11 +122,24 @@ class DisplayPictureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TextRecognition(
+                  image: imagePath,
+                )));
     return Scaffold(
       appBar: AppBar(title: Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      body: Column(
+        children: <Widget>[
+          Expanded(child: Image.file(File(imagePath))),
+          Expanded(
+            child: Text(TextRecognition.extractedText ?? 'loading'),
+          ),
+        ],
+      ),
     );
   }
 }
