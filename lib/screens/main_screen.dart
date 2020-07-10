@@ -46,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
                     color: BgColor,
                     elevation: 5,
                     child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 35, 20, 20),
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 25,
                             ),
                             Container(
                                 height: 40,
@@ -142,6 +142,7 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                     labelText: 'Text Input',
                                     labelStyle: TextStyle(
+                                      fontSize: 17,
                                       color: blue1,
                                     ),
                                     border: OutlineInputBorder(
@@ -157,7 +158,7 @@ class _MainScreenState extends State<MainScreen> {
                               ],
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Consumer<CurrentLanguages>(
                                 builder: (context, current, _) {
@@ -167,7 +168,7 @@ class _MainScreenState extends State<MainScreen> {
                                 children: [
                                   iconButton(
                                       icon: Icons.camera_alt,
-                                      iconSize: 15,
+                                      iconSize: 20,
                                       bgColor: blue1,
                                       radius: 25,
                                       onPressed: () async {
@@ -188,7 +189,7 @@ class _MainScreenState extends State<MainScreen> {
                                       }),
                                   iconButton(
                                     icon: Icons.photo,
-                                    iconSize: 15,
+                                    iconSize: 20,
                                     bgColor: blue1,
                                     radius: 25,
                                     onPressed: () {
@@ -202,7 +203,7 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                   iconButton(
                                       icon: Icons.mic,
-                                      iconSize: 15,
+                                      iconSize: 20,
                                       bgColor: blue1,
                                       radius: 25,
                                       onPressed: () {
@@ -212,7 +213,7 @@ class _MainScreenState extends State<MainScreen> {
                                       }),
                                   iconButton(
                                       icon: Icons.question_answer,
-                                      iconSize: 15,
+                                      iconSize: 20,
                                       bgColor: blue1,
                                       radius: 25,
                                       onPressed: () {

@@ -78,11 +78,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                     child: Opacity(
                       opacity: 0.7,
                       child: Container(
-                        height: 200.0,
                         child: Column(
                           children: <Widget>[
                             Expanded(
-                              flex: 1,
+                              flex: 2,
                               child: Container(),
                             ),
                             Expanded(
@@ -91,12 +90,12 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                                 scrollDirection: Axis.vertical,
                                 children: <Widget>[
                                   Container(
-                                    color: Colors.white,
+                                    color: Colors.blueGrey,
                                     child: Text(translatedOcrResult,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 20.0,
-                                          color: Colors.cyan,
+                                          color: Colors.black,
                                         )),
                                   ),
                                 ],

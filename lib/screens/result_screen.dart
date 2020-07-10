@@ -222,6 +222,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                 scrollDirection: Axis.vertical,
                                 children: [
                                   Text(
+                                    'Translated Text:',
+                                    style: TextStyle(
+                                      color: output,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  Text(
                                     MainScreen.translatedText,
                                     style: TextStyle(
                                       color: output,
@@ -299,6 +306,13 @@ class _ResultScreenState extends State<ResultScreen> {
                               child: ListView(
                                 scrollDirection: Axis.vertical,
                                 children: [
+                                  Text(
+                                    'Input Text: (Tap to edit)',
+                                    style: TextStyle(
+                                      color: input,
+                                      fontSize: 17,
+                                    ),
+                                  ),
                                   _editTitleTextField(),
                                 ],
                               ),
@@ -402,27 +416,30 @@ class _ResultScreenState extends State<ResultScreen> {
 
   Widget _editTitleTextField() {
     if (_isEditingText)
-      return Wrap(
-        direction: Axis.horizontal,
-        children: [
-          TextField(
-            onChanged: (value) {
-              setState(() {
-                MainScreen.inputText = value;
-                MainScreen.taskId = 1;
-                translate();
-              });
-            },
-            onSubmitted: (newValue) {
-              setState(() {
-                MainScreen.inputText = newValue;
-                _isEditingText = false;
-              });
-            },
-            autofocus: false,
-            controller: _editingController,
-          ),
-        ],
+      return TextField(
+        keyboardType: TextInputType.text,
+        maxLines: null,
+        cursorColor: input,
+        style: TextStyle(
+          color: input,
+          fontSize: 30,
+          fontWeight: FontWeight.w500,
+        ),
+        onChanged: (value) {
+          setState(() {
+            MainScreen.inputText = value;
+            MainScreen.taskId = 1;
+            translate();
+          });
+        },
+        onSubmitted: (newValue) {
+          setState(() {
+            MainScreen.inputText = newValue;
+            _isEditingText = false;
+          });
+        },
+        autofocus: false,
+        controller: _editingController,
       );
     return InkWell(
         onTap: () {

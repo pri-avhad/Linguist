@@ -66,7 +66,7 @@ Widget iconButton(
     Color bgColor}) {
   return Material(
     shape: CircleBorder(),
-    elevation: 8,
+    elevation: 5,
     child: CircleAvatar(
       radius: radius,
       backgroundColor: bgColor,
