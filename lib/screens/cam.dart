@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
 import 'package:provider/provider.dart';
-import 'package:tesseract_ocr/tesseract_ocr.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -22,7 +23,8 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class TakePictureScreenState extends State<TakePictureScreen> {
-  String translatedOcrResult = 'Click to scan';
+  String text = '';
+  String translatedResult = 'Click to scan';
   CameraController _controller;
   Future<void> _initializeControllerFuture;
 
@@ -45,22 +47,28 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     super.dispose();
   }
 
+  Future<String> textDetect(var img) async {
+    String text = '';
+    FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(img);
+    TextRecognizer ourtext = FirebaseVision.instance.textRecognizer();
+    VisionText readtext = await ourtext.processImage(ourImage);
+
+    //extracting each text block in which we extract each line and in which we extract each word(element)
+    for (TextBlock block in readtext.blocks) {
+      for (TextLine line in block.lines) {
+        for (TextElement element in line.elements) {
+          text = text + element.text + ' ';
+        }
+      }
+    }
+    ourtext.close();
+    return text;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future<String> getOcr(image, language) async {
-      String _extractText;
-      print('starting');
-      _extractText = await TesseractOcr.extractText(
-        image,
-        language: language,
-      );
-      print(_extractText);
-      return _extractText;
-    }
-
     return Consumer<CurrentLanguages>(builder: (context, current, _) {
       return Scaffold(
-//        appBar: AppBar(),
         body: FutureBuilder<void>(
           future: _initializeControllerFuture,
           builder: (context, snapshot) {
@@ -91,7 +99,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                                 children: <Widget>[
                                   Container(
                                     color: Colors.blueGrey,
-                                    child: Text(translatedOcrResult,
+                                    child: Text(translatedResult,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 20.0,
@@ -121,7 +129,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           ),
           onPressed: () async {
             setState(() {
-              translatedOcrResult = 'LOADING...';
+              translatedResult = 'LOADING...';
             });
             try {
               // Ensure that the camera is initialized.
@@ -132,16 +140,15 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               );
 
               await _controller.takePicture(path);
-
-              print(path);
-              String ocrResult = await getOcr(path, current.ocrId1);
+              File imageFile = File(path);
+              String result = await textDetect(imageFile);
               String text = await FirebaseLanguage.instance
                   .languageTranslator(
                       current.translateId1, current.translateId2)
-                  .processText(ocrResult);
+                  .processText(result);
               setState(() {
-                translatedOcrResult = text;
-                print(translatedOcrResult);
+                translatedResult = text;
+                print(translatedResult);
               });
             } catch (e) {
               print(e);

@@ -3,13 +3,15 @@ import 'package:linguist/constants.dart';
 import 'package:linguist/screens/main_screen.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 import 'package:provider/provider.dart';
 import 'package:linguist/current_model.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:linguist/screens/lang_drawer.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:tesseract_ocr/tesseract_ocr.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'main_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ResultScreen extends StatefulWidget {
   static String translateFrom = 'en';
@@ -83,6 +85,65 @@ class _ResultScreenState extends State<ResultScreen> {
     flutterTts.stop();
     _editingController.dispose();
     super.dispose();
+  }
+
+  Future<void> cropImage(var img) async {
+    var cropped = await ImageCropper.cropImage(
+        sourcePath: img.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: blue1,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: blue1,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: 'Cropper',
+        ));
+    if (cropped != null) {
+      setState(() {
+        imageFile = cropped;
+      });
+      await textDetect(imageFile);
+    } else
+      await _showMyDialog();
+  }
+
+  Future<void> textDetect(var img) async {
+    //using Firebase ML vision kit to identify text blocks from image
+    FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(img);
+    TextRecognizer ourtext = FirebaseVision.instance.textRecognizer();
+    VisionText readtext = await ourtext.processImage(ourImage);
+
+    //extracting each text block in which we extract each line and in which we extract each word(element)
+    for (TextBlock block in readtext.blocks) {
+      for (TextLine line in block.lines) {
+        for (TextElement element in line.elements) {
+          text = text + element.text + ' ';
+        }
+      }
+    }
+    ourtext.close();
+    MainScreen.inputText = text;
+    await translate();
   }
 
   //dialog box which shows that input was not given and redirects to main screen
@@ -160,25 +221,17 @@ class _ResultScreenState extends State<ResultScreen> {
       else
         await _showMyDialog();
     } else if (MainScreen.taskId == 2) {
-      imageFile = await FilePicker.getFilePath(type: FileType.image);
+      imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
       if (imageFile != null) {
-        String _extractText;
-        _extractText = await TesseractOcr.extractText(imageFile,
-            language:
-                Provider.of<CurrentLanguages>(context, listen: false).ocrId1);
-        print(_extractText);
-        if (_extractText != null) {
-          setState(() {
-            MainScreen.inputText = _extractText;
-          });
-          translate();
-        } else {
-          await _showMyDialog();
-        }
-      } else
-        //if image input is empty then displays a dialog box which redirects to main screen
+        setState(() {
+          cropImage(imageFile);
+        });
+      } else {
         await _showMyDialog();
-    }
+      }
+    } else
+      //if image input is empty then displays a dialog box which redirects to main screen
+      await _showMyDialog();
   }
 
   void backButton() {
