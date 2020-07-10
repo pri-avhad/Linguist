@@ -28,6 +28,59 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   String _extractText = '';
 
+  Future<void> _showMyDialog(String lang) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+            child: Text(
+              'Error!',
+              style: TextStyle(
+                  color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Center(
+              child: ListBody(
+                children: <Widget>[
+                  Center(
+                    child: Icon(
+                      Icons.error,
+                      color: blue1,
+                      size: 60,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Text detection not available for $lang',
+                    style: TextStyle(
+                      color: input,
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Center(
+                    child: RaisedButton(
+                      color: input,
+                      child: Text('Okay'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -38,7 +91,8 @@ class _MainScreenState extends State<MainScreen> {
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           body: SafeArea(
-            child: Column(
+              child: Consumer<CurrentLanguages>(builder: (context, current, _) {
+            return Column(
               children: [
                 Expanded(
                   flex: 2,
@@ -160,18 +214,16 @@ class _MainScreenState extends State<MainScreen> {
                             SizedBox(
                               height: 20,
                             ),
-                            Consumer<CurrentLanguages>(
-                                builder: (context, current, _) {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  iconButton(
-                                      icon: Icons.camera_alt,
-                                      iconSize: 20,
-                                      bgColor: blue1,
-                                      radius: 25,
-                                      onPressed: () async {
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                iconButton(
+                                    icon: Icons.camera_alt,
+                                    iconSize: 20,
+                                    bgColor: blue1,
+                                    radius: 25,
+                                    onPressed: () async {
+                                      if (current.imageInput == '1') {
                                         WidgetsFlutterBinding
                                             .ensureInitialized();
                                         // Obtain a list of the available cameras on the device.
@@ -186,46 +238,49 @@ class _MainScreenState extends State<MainScreen> {
                                                 camera: firstCamera);
                                           }),
                                         );
-                                      }),
-                                  iconButton(
-                                    icon: Icons.photo,
-                                    iconSize: 20,
-                                    bgColor: blue1,
-                                    radius: 25,
-                                    onPressed: () {
+                                      } else
+                                        _showMyDialog(current.lang1);
+                                    }),
+                                iconButton(
+                                  icon: Icons.photo,
+                                  iconSize: 20,
+                                  bgColor: blue1,
+                                  radius: 25,
+                                  onPressed: () {
+                                    if (current.imageInput == '1') {
                                       MainScreen.taskId = 2;
                                       MainScreen.result = 1;
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
                                         return ResultScreen();
                                       }));
-                                    },
-                                  ),
-                                  iconButton(
-                                      icon: Icons.mic,
-                                      iconSize: 20,
-                                      bgColor: blue1,
-                                      radius: 25,
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) => SttDrawer());
-                                      }),
-                                  iconButton(
-                                      icon: Icons.question_answer,
-                                      iconSize: 20,
-                                      bgColor: blue1,
-                                      radius: 25,
-                                      onPressed: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return Conversation();
-                                        }));
-                                      }),
-                                ],
-                              );
-                            }),
+                                    } else
+                                      _showMyDialog(current.lang1);
+                                  },
+                                ),
+                                iconButton(
+                                    icon: Icons.mic,
+                                    iconSize: 20,
+                                    bgColor: blue1,
+                                    radius: 25,
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => SttDrawer());
+                                    }),
+                                iconButton(
+                                    icon: Icons.question_answer,
+                                    iconSize: 20,
+                                    bgColor: blue1,
+                                    radius: 25,
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return Conversation();
+                                      }));
+                                    }),
+                              ],
+                            )
                           ],
                         )),
                   ),
@@ -235,8 +290,8 @@ class _MainScreenState extends State<MainScreen> {
                   child: Container(),
                 ),
               ],
-            ),
-          ),
+            );
+          })),
         ));
   }
 }

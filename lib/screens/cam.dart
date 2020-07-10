@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
+import 'package:linguist/screens/result_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,35 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     // Next, initialize the controller.
     _initializeControllerFuture = _controller.initialize();
+    scan();
+  }
+
+  Future<void> scan() async {
+    try {
+      // Ensure that the camera is initialized.
+      await _initializeControllerFuture;
+      final path = join(
+        (await getTemporaryDirectory()).path,
+        '${DateTime.now()}.png',
+      );
+
+      await _controller.takePicture(path);
+      File imageFile = File(path);
+      String result = await textDetect(imageFile);
+      String text = await FirebaseLanguage.instance
+          .languageTranslator(
+              ResultScreen.translateFrom, ResultScreen.translateTo)
+          .processText(result);
+      setState(() {
+        translatedResult = text;
+        print(translatedResult);
+      });
+      Timer(Duration(seconds: 2), () {
+        scan();
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -121,40 +151,40 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             }
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: blue1,
-          child: Icon(
-            Icons.center_focus_weak,
-            size: 20.0,
-          ),
-          onPressed: () async {
-            setState(() {
-              translatedResult = 'LOADING...';
-            });
-            try {
-              // Ensure that the camera is initialized.
-              await _initializeControllerFuture;
-              final path = join(
-                (await getTemporaryDirectory()).path,
-                '${DateTime.now()}.png',
-              );
-
-              await _controller.takePicture(path);
-              File imageFile = File(path);
-              String result = await textDetect(imageFile);
-              String text = await FirebaseLanguage.instance
-                  .languageTranslator(
-                      current.translateId1, current.translateId2)
-                  .processText(result);
-              setState(() {
-                translatedResult = text;
-                print(translatedResult);
-              });
-            } catch (e) {
-              print(e);
-            }
-          },
-        ),
+//        floatingActionButton: FloatingActionButton(
+//          backgroundColor: blue1,
+//          child: Icon(
+//            Icons.center_focus_weak,
+//            size: 20.0,
+//          ),
+//          onPressed: () async {
+//            setState(() {
+//              translatedResult = 'LOADING...';
+//            });
+//            try {
+//              // Ensure that the camera is initialized.
+//              await _initializeControllerFuture;
+//              final path = join(
+//                (await getTemporaryDirectory()).path,
+//                '${DateTime.now()}.png',
+//              );
+//
+//              await _controller.takePicture(path);
+//              File imageFile = File(path);
+//              String result = await textDetect(imageFile);
+//              String text = await FirebaseLanguage.instance
+//                  .languageTranslator(
+//                      current.translateId1, current.translateId2)
+//                  .processText(result);
+//              setState(() {
+//                translatedResult = text;
+//                print(translatedResult);
+//              });
+//            } catch (e) {
+//              print(e);
+//            }
+//          },
+//        ),
       );
     });
   }
