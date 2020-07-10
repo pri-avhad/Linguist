@@ -11,24 +11,9 @@ import 'package:linguist/widgets.dart';
 import 'package:linguist/screens/conversation.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
-import 'package:tesseract_ocr/tesseract_ocr.dart';
-import 'package:file_picker/file_picker.dart';
 
 var imageFile;
 var firstCamera;
-
-//Future<void> camera() async {
-//
-//  WidgetsFlutterBinding.ensureInitialized();
-//  // Obtain a list of the available cameras on the device.
-//  final cameras = await availableCameras();
-//  // Get a specific camera from the list of available cameras.
-//  final firstCamera = cameras.first;
-//  return firstCamera;
-//
-//
-//
-//}
 
 class MainScreen extends StatefulWidget {
   static var translatedText = '';
@@ -199,7 +184,7 @@ class _MainScreenState extends State<MainScreen> {
                                             return TakePictureScreen(
                                                 camera: firstCamera);
                                           }),
-                                        ); //TODO navigate to camera screen for real time translation
+                                        );
                                       }),
                                   iconButton(
                                     icon: Icons.photo,
@@ -213,14 +198,6 @@ class _MainScreenState extends State<MainScreen> {
                                           MaterialPageRoute(builder: (context) {
                                         return ResultScreen();
                                       }));
-
-//                                      imageFile = await FilePicker.getFilePath(
-//                                          type: FileType.image);
-//                                      _extractText =
-//                                          await TesseractOcr.extractText(
-//                                              imageFile,
-//                                              language: current.ocrId1);
-//                                      print(_extractText);
                                     },
                                   ),
                                   iconButton(

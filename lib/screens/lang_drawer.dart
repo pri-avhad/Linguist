@@ -34,7 +34,6 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
         Conversation.text1 = '...';
         Conversation.text2 = '...';
         Provider.of<CurrentLanguages>(context, listen: false).assign(
-//            s1: languageData[index][3],
             t1: languageData[index][2],
             o1: languageData[index][1],
             l1: languageData[index][0]);
@@ -50,13 +49,13 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
             pressedTo[i] = false;
         }
         Provider.of<CurrentLanguages>(context, listen: false).assign(
-//            s2: languageData[index][3],
             t2: languageData[index][2],
             o2: languageData[index][1],
             l2: languageData[index][0]);
         Conversation.text2 = '...';
         Conversation.text1 = '...';
         if (MainScreen.result != 0) {
+          MainScreen.taskId = 1;
           MainScreen.result = 1;
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ResultScreen();
@@ -124,81 +123,88 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
                 topLeft: Radius.circular(20.0),
                 topRight: Radius.circular(20.0)),
           ),
-          child: Consumer<CurrentLanguages>(builder: (context, current, _) {
-            return ListView(
-              scrollDirection: Axis.vertical,
-              children: [
-                Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                    child: Text(
-                      'Languages',
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: (MainScreen.result == 0)
-                              ? getFromDrawer()
-                              : [
-                                  FlatButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0)),
-                                    child: Text(
-                                      current.lang1,
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    color: input,
-                                    onPressed: () {},
-                                  ),
-                                ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
+                  child: Text(
+                    'Languages',
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
+                  )),
+              Consumer<CurrentLanguages>(builder: (context, current, _) {
+                return Expanded(
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0, 15.0, 0, 15),
-                              child: Icon(
-                                Icons.compare_arrows,
-                                color: Colors.white,
-                                size: 16,
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: (MainScreen.result == 0)
+                                    ? getFromDrawer()
+                                    : [
+                                        FlatButton(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0)),
+                                          child: Text(
+                                            current.lang1,
+                                            style: TextStyle(
+                                              fontSize: 18.0,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          color: input,
+                                          onPressed: () {},
+                                        ),
+                                      ],
                               ),
-                            )
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0, 15.0, 0, 15),
+                                    child: Icon(
+                                      Icons.compare_arrows,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: getToDrawer(),
+                              ),
+                            ),
                           ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: getToDrawer(),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            );
-          })),
+                );
+              }),
+            ],
+          )),
     );
   }
 }

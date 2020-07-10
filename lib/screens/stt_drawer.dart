@@ -224,6 +224,7 @@ class _SttDrawerState extends State<SttDrawer> {
                                 setState(
                                   () {
                                     MainScreen.inputText = lastWords;
+                                    MainScreen.taskId = 1;
                                     MainScreen.result = 1;
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {

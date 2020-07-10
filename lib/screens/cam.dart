@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,6 @@ import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 
-// A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
 
@@ -31,11 +29,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   void initState() {
     super.initState();
-    // To display the current output from the Camera,
     _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
       widget.camera,
-      // Define the resolution to use.
       ResolutionPreset.high,
     );
 
@@ -122,7 +117,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: blue1,
           child: Icon(
-            Icons.camera_alt,
+            Icons.center_focus_weak,
             size: 20.0,
           ),
           onPressed: () async {
@@ -145,24 +140,11 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                   .languageTranslator(
                       current.translateId1, current.translateId2)
                   .processText(ocrResult);
-//                setState(() {
-//                  MainScreen.translatedText = text;
-//                  MainScreen.result = 2;
-//                });
               setState(() {
                 translatedOcrResult = text;
                 print(translatedOcrResult);
               });
-
-              // If the picture was taken, display it on a new screen.
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(
-//                builder: (context) => DisplayPictureScreen(imagePath: path),
-//              ),
-//            );
             } catch (e) {
-              // If an error occurs, log the error to the console.
               print(e);
             }
           },
