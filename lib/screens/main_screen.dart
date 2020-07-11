@@ -294,7 +294,7 @@ class _MainScreenState extends State<MainScreen> {
                       children: [
                         Text(
                           'Apart from directly typing out the input to be translated, Linguist provides you with these options',
-                          style: TextStyle(color: instructions, fontSize: 18),
+                          style: TextStyle(color: instructions, fontSize: 15),
                         ),
                         points(
                             'Camera button: Real time Optical Character Recognition i.e. image to text translation (available for Latin based languages only)'),
@@ -305,7 +305,7 @@ class _MainScreenState extends State<MainScreen> {
                             'Conversation button: Real time speech to speech translation.'),
                         Text(
                           'Real time text translation available from result screen.',
-                          style: TextStyle(color: instructions, fontSize: 18),
+                          style: TextStyle(color: instructions, fontSize: 15),
                         ),
                       ],
                     ),
@@ -338,7 +338,7 @@ Widget points(String text) {
         Expanded(
           child: Text(
             text,
-            style: TextStyle(color: instructions, fontSize: 18),
+            style: TextStyle(color: instructions, fontSize: 15),
           ),
         ),
       ],

@@ -64,7 +64,6 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
 
     List<Widget> getFromDrawer() {
       List<Widget> listElement = new List(languageData.length);
-
       for (int i = 0; i < languageData.length; i++) {
         listElement[i] = FlatButton(
           shape:
@@ -78,7 +77,6 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
           color: pressedFrom[i] ? input : blue1,
           onPressed: () {
             setState(() {
-              print('${languageData[i][0]} pressed (from)');
               changeFromActiveLanguageState(i);
             });
           },
@@ -103,7 +101,6 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
           color: pressedTo[i] ? output : blue1,
           onPressed: () {
             setState(() {
-              print('${languageData[i][0]} pressed (to)');
               changeToActiveLanguageState(i);
             });
           },

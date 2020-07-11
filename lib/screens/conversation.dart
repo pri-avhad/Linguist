@@ -74,7 +74,6 @@ class _ConversationState extends State<Conversation> {
     setState(() {
       lastError = "${error.errorMsg}";
       _displayError();
-      //lastError = "${error.errorMsg} - ${error.permanent}";
     });
   }
 
