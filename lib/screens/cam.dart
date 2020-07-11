@@ -26,7 +26,7 @@ class TakePictureScreen extends StatefulWidget {
 class TakePictureScreenState extends State<TakePictureScreen> {
   int stop = 0;
   String text = '';
-  String translatedResult = 'Click to scan';
+  String translatedResult = 'Loading...';
   CameraController _controller;
   Future<void> _initializeControllerFuture;
 
