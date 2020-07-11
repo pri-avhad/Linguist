@@ -20,65 +20,63 @@ class MainScreen extends StatefulWidget {
   static var inputText = '';
   static int result = 0;
   static int taskId = 0;
-
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String _extractText = '';
-
   Future<void> _showMyDialog(String lang) async {
     return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Center(
-            child: Text(
-              'Error!',
-              style: TextStyle(
-                  color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                  child: Icon(
+                    Icons.error,
+                    color: blue1,
+                    size: 30,
+                  ),
+                ),
+                Text(
+                  'Error!',
+                  style: TextStyle(
+                      color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
-          ),
-          content: SingleChildScrollView(
-            child: Center(
-              child: ListBody(
-                children: <Widget>[
-                  Center(
-                    child: Icon(
-                      Icons.error,
-                      color: blue1,
-                      size: 60,
+            actions: [
+              RaisedButton(
+                color: input,
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+            content: SingleChildScrollView(
+              child: Center(
+                child: ListBody(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 5,
                     ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Text detection not available for $lang',
-                    style: TextStyle(
-                      color: input,
-                      fontSize: 18,
+                    Text(
+                      'Text detection not available for $lang',
+                      style: TextStyle(
+                        color: blue1,
+                        fontSize: 18,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Center(
-                    child: RaisedButton(
-                      color: input,
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 
   @override
@@ -113,7 +111,7 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 25,
+                              height: 20,
                             ),
                             Container(
                                 height: 40,
@@ -185,13 +183,15 @@ class _MainScreenState extends State<MainScreen> {
                                         size: 20,
                                       ),
                                       onPressed: () {
-                                        MainScreen.taskId = 1;
-                                        MainScreen.result = 1;
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return ResultScreen();
-                                        }));
+                                        if (MainScreen.inputText != '') {
+                                          MainScreen.taskId = 1;
+                                          MainScreen.result = 1;
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return ResultScreen();
+                                          }));
+                                        }
                                       },
                                     ),
                                     labelText: 'Text Input',
@@ -287,11 +287,61 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 Expanded(
                   flex: 3,
-                  child: Container(),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+                    child: ListView(
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        Text(
+                          'Apart from directly typing out the input to be translated, Linguist provides you with these options',
+                          style: TextStyle(color: instructions, fontSize: 18),
+                        ),
+                        points(
+                            'Camera button: Real time Optical Character Recognition i.e. image to text translation (available for Latin based languages only)'),
+                        points(
+                            'Photo button: Translating text from images/files on your device (available for Latin based languages only)'),
+                        points('Mic button: Audio to text translation.'),
+                        points(
+                            'Conversation button: Real time speech to speech translation.'),
+                        Text(
+                          'Real time text translation available from result screen.',
+                          style: TextStyle(color: instructions, fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             );
           })),
         ));
   }
+}
+
+Widget points(String text) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+          child: Icon(
+            Icons.arrow_right,
+            color: instructions,
+            size: 15,
+          ),
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(color: instructions, fontSize: 18),
+          ),
+        ),
+      ],
+    ),
+  );
 }

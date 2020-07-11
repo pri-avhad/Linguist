@@ -24,6 +24,7 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class TakePictureScreenState extends State<TakePictureScreen> {
+  int stop = 0;
   String text = '';
   String translatedResult = 'Click to scan';
   CameraController _controller;
@@ -62,9 +63,11 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         translatedResult = text;
         print(translatedResult);
       });
-      Timer(Duration(seconds: 2), () {
-        scan();
-      });
+      if (stop == 0) {
+        Timer(Duration(seconds: 1), () {
+          scan();
+        });
+      }
     } catch (e) {
       print(e);
     }
@@ -72,6 +75,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
   @override
   void dispose() {
+    stop = 1;
     // Dispose of the controller when the widget is disposed.
     _controller.dispose();
     super.dispose();
@@ -90,6 +94,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           text = text + element.text + ' ';
         }
       }
+      text = text + '\n';
     }
     ourtext.close();
     return text;

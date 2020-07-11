@@ -6,6 +6,7 @@ const Color BgColor = Color(0xFFFFFFFF);
 const Color blue1 = Color(0xFF094F66);
 const Color input = Color(0xFF059796);
 const Color output = Color(0xFF51B57F);
+const Color instructions = Color(0xFF959595);
 
 const double volume = 1.0;
 const double pitch = 1.0;

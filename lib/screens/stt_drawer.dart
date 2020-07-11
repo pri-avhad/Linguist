@@ -53,43 +53,44 @@ class _SttDrawerState extends State<SttDrawer> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(
-            child: Text(
-              'Error!',
-              style: TextStyle(
-                  color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
-            ),
+          title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                child: Icon(
+                  Icons.error,
+                  color: blue1,
+                  size: 30,
+                ),
+              ),
+              Text(
+                'Error!',
+                style: TextStyle(
+                    color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+              ),
+            ],
           ),
+          actions: [
+            RaisedButton(
+              color: input,
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
           content: SingleChildScrollView(
             child: Center(
               child: ListBody(
                 children: <Widget>[
-                  Icon(
-                    Icons.error,
-                    color: blue1,
-                    size: 60,
-                  ),
                   SizedBox(
                     height: 5,
                   ),
                   Text(
-                    'No input text/audio/image found. Return to Main screen and give input.\n$lastError',
+                    'No input found. \nReturn to Main screen and give input.\n$lastError',
                     style: TextStyle(
-                      color: input,
+                      color: blue1,
                       fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Center(
-                    child: RaisedButton(
-                      color: input,
-                      child: Text('Okay'),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return MainScreen();
-                        }));
-                      },
                     ),
                   ),
                 ],
