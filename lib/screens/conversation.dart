@@ -30,8 +30,14 @@ class _ConversationState extends State<Conversation> {
   TtsState ttsState = TtsState.stopped;
   get isPlaying => ttsState == TtsState.playing;
   get isStopped => ttsState == TtsState.stopped;
+  void dispose() {
+    flutterTts.stop();
+    super.dispose();
+  }
 
   void initState() {
+    Conversation.text1 = "...";
+    Conversation.text2 = "...";
     super.initState();
     initTts();
     initializeSpeechState();
