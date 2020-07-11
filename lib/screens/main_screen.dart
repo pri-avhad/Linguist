@@ -98,7 +98,7 @@ class _MainScreenState extends State<MainScreen> {
                     color: BgColor,
                     elevation: 5,
                     child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0git),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
