@@ -11,6 +11,7 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:linguist/screens/lang_drawer.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'main_screen.dart';
+import 'package:linguist/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -248,6 +249,7 @@ class _ResultScreenState extends State<ResultScreen> {
         backButton();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: BgColor,
         body: SafeArea(
           child: Padding(
@@ -257,163 +259,81 @@ class _ResultScreenState extends State<ResultScreen> {
                   children: <Widget>[
                     Expanded(flex: 2, child: Container()),
                     Expanded(
-                      flex: 12,
-                      child: (MainScreen.result == 1)
-                          ? Container(
-                              height: double.infinity,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Colors.white,
-                                  valueColor:
-                                      AlwaysStoppedAnimation<Color>(output),
-                                ),
-                              ),
-                            )
-                          : Container(
-                              width: double.infinity,
-                              child: ListView(
-                                scrollDirection: Axis.vertical,
-                                children: [
-                                  Text(
-                                    'Translated Text:',
-                                    style: TextStyle(
-                                      color: output,
-                                      fontSize: 17,
+                      flex: 15,
+                      child: result(
+                          color: output,
+                          output: (MainScreen.result == 1)
+                              ? Container(
+                                  height: double.infinity,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Colors.white,
+                                      valueColor:
+                                          AlwaysStoppedAnimation<Color>(output),
                                     ),
                                   ),
-                                  Text(
-                                    MainScreen.translatedText,
-                                    style: TextStyle(
-                                      color: output,
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.w500,
+                                )
+                              : Container(
+                                  width: double.infinity,
+                                  child: ListView(
+                                    scrollDirection: Axis.vertical,
+                                    children: [
+                                      Text(
+                                        MainScreen.translatedText,
+                                        style: TextStyle(
+                                          color: output,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          onPressedSpeak: () {
+                            setState(() {
+                              if (MainScreen.result == 2) {
+                                speak(
+                                    text: MainScreen.translatedText,
+                                    lang: current.translateId2);
+                              }
+                            });
+                          },
+                          title: 'Translated text:',
+                          language: current.lang2),
+                    ),
+                    Expanded(flex: 1, child: Container()),
+                    Expanded(
+                      flex: 15,
+                      child: result(
+                          color: input,
+                          output: (MainScreen.result == 1)
+                              ? Container(
+                                  height: double.infinity,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Colors.white,
+                                      valueColor:
+                                          AlwaysStoppedAnimation<Color>(input),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              current.lang2,
-                              style: TextStyle(color: output, fontSize: 20),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Icon(
-                              Icons.keyboard_arrow_down,
-                              color: output,
-                              size: 20,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: IconButton(
-                                padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                icon: Icon(
-                                  Icons.volume_up,
-                                  color: output,
-                                  size: 20,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    if (MainScreen.result == 2) {
-                                      speak(
-                                          text: MainScreen.translatedText,
-                                          lang: current.translateId2);
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(flex: 2, child: Container()),
-                    Expanded(
-                      flex: 10,
-                      child: (MainScreen.result == 1)
-                          ? Container(
-                              height: double.infinity,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Colors.white,
-                                  valueColor:
-                                      AlwaysStoppedAnimation<Color>(input),
-                                ),
-                              ),
-                            )
-                          : Container(
-                              width: double.infinity,
-                              child: ListView(
-                                scrollDirection: Axis.vertical,
-                                children: [
-                                  Text(
-                                    'Input Text: (Tap to edit)',
-                                    style: TextStyle(
-                                      color: input,
-                                      fontSize: 17,
-                                    ),
+                                )
+                              : Container(
+                                  width: double.infinity,
+                                  child: ListView(
+                                    scrollDirection: Axis.vertical,
+                                    children: [
+                                      _editTitleTextField(),
+                                    ],
                                   ),
-                                  _editTitleTextField(),
-                                ],
-                              ),
-                            ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              current.lang1,
-                              style: TextStyle(color: input, fontSize: 20),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Icon(
-                              Icons.keyboard_arrow_down,
-                              color: input,
-                              size: 20,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: IconButton(
-                                padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                icon: Icon(
-                                  Icons.volume_up,
-                                  color: input,
-                                  size: 20,
                                 ),
-                                onPressed: () {
-                                  if (MainScreen.result == 2)
-                                    speak(
-                                        text: MainScreen.inputText,
-                                        lang: current.translateId1);
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                          onPressedSpeak: () {
+                            if (MainScreen.result == 2)
+                              speak(
+                                  text: MainScreen.inputText,
+                                  lang: current.translateId1);
+                          },
+                          title: 'Tap to edit:',
+                          language: current.lang1),
                     ),
                     Expanded(flex: 1, child: Container()),
                     Container(
