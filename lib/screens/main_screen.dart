@@ -344,14 +344,10 @@ class _MainScreenState extends State<MainScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-                0, MediaQuery.of(context).size.width * 0.012, 0, 0),
-            child: Icon(
-              Icons.arrow_right,
-              color: instructions,
-              size: MediaQuery.of(context).size.height * 0.021,
-            ),
+          Icon(
+            Icons.arrow_right,
+            color: instructions,
+            size: MediaQuery.of(context).size.height * 0.021,
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.022,
