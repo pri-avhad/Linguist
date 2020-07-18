@@ -120,7 +120,6 @@ class _MainScreenState extends State<MainScreen> {
                                 children: [
                                   IconButton(
                                     padding: EdgeInsets.all(0),
-                                    splashColor: blue1,
                                     iconSize: height * 0.04,
                                     color: blue1,
                                     icon: Align(
