@@ -184,6 +184,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     fontSize: MediaQuery.of(context).size.height * 0.02),
               ),
               onPressed: () {
+                MainScreen.result = 0;
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return MainScreen();
                 }));
