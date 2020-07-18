@@ -148,12 +148,13 @@ Widget result(
   );
 }
 
-Widget iconButton(
-    {IconData icon,
-    Function onPressed,
-    double radius,
-    double iconSize,
-    Color bgColor}) {
+Widget iconButton({
+  IconData icon,
+  Function onPressed,
+  double radius,
+  double iconSize,
+  Color bgColor,
+}) {
   return Material(
     shape: CircleBorder(),
     elevation: 5,

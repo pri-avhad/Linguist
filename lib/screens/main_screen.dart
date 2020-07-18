@@ -113,12 +113,35 @@ class _MainScreenState extends State<MainScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Linguist",
-                              style: TextStyle(
-                                fontSize: height * 0.04,
-                                color: blue1,
-                                fontWeight: FontWeight.w500,
+                            Container(
+                              height: height * 0.043,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                    padding: EdgeInsets.all(0),
+                                    splashColor: blue1,
+                                    iconSize: height * 0.04,
+                                    color: blue1,
+                                    icon: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Icon(
+                                        Icons.dehaze,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      //TODO add the settings drawer
+                                    },
+                                  ),
+                                  Text(
+                                    "Linguist",
+                                    style: TextStyle(
+                                      fontSize: height * 0.038,
+                                      color: blue1,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(
