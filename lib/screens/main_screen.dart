@@ -38,20 +38,26 @@ class _MainScreenState extends State<MainScreen> {
                   child: Icon(
                     Icons.error,
                     color: blue1,
-                    size: 30,
+                    size: MediaQuery.of(context).size.height * 0.042,
                   ),
                 ),
                 Text(
                   'Error!',
                   style: TextStyle(
-                      color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+                      color: blue1,
+                      fontSize: MediaQuery.of(context).size.height * 0.042,
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             ),
             actions: [
               RaisedButton(
                 color: input,
-                child: Text('Okay'),
+                child: Text(
+                  'Okay',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.02),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -62,13 +68,13 @@ class _MainScreenState extends State<MainScreen> {
                 child: ListBody(
                   children: <Widget>[
                     SizedBox(
-                      height: 5,
+                      height: MediaQuery.of(context).size.height * 0.007,
                     ),
                     Text(
                       'Text detection not available for $lang',
                       style: TextStyle(
                         color: blue1,
-                        fontSize: 18,
+                        fontSize: MediaQuery.of(context).size.height * 0.025,
                       ),
                     ),
                   ],
@@ -81,6 +87,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return WillPopScope(
         onWillPop: () {
           SystemNavigator.pop();
@@ -90,31 +98,34 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Colors.white,
           body: SafeArea(
               child: Consumer<CurrentLanguages>(builder: (context, current, _) {
-            return Column(
+            return ListView(
+              scrollDirection: Axis.vertical,
               children: [
-                Expanded(
-                  flex: 2,
+                Container(
+                  height: height * 0.416,
+                  width: width,
                   child: Material(
                     color: BgColor,
                     elevation: 5,
                     child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            width * 0.05, height * 0.03, width * 0.05, 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Linguist",
                               style: TextStyle(
-                                fontSize: 30,
+                                fontSize: height * 0.04,
                                 color: blue1,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             SizedBox(
-                              height: 20,
+                              height: height * 0.032,
                             ),
                             Container(
-                                height: 40,
+                                height: height * 0.057,
                                 width: double.infinity,
                                 child: Consumer<CurrentLanguages>(
                                   builder: (context, current, _) {
@@ -135,7 +146,9 @@ class _MainScreenState extends State<MainScreen> {
                                               current.lang1,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                color: Colors.white,
+                                                fontSize: height * 0.018,
+                                              ),
                                             ),
                                           ),
                                           Expanded(
@@ -151,7 +164,9 @@ class _MainScreenState extends State<MainScreen> {
                                               current.lang2,
                                               textAlign: TextAlign.right,
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                color: Colors.white,
+                                                fontSize: height * 0.018,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -166,62 +181,68 @@ class _MainScreenState extends State<MainScreen> {
                                   },
                                 )),
                             SizedBox(
-                              height: 10,
+                              height: height * 0.015,
                             ),
                             Wrap(
                               direction: Axis.horizontal,
                               children: [
-                                TextField(
-                                  style: TextStyle(color: blue1),
-                                  decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(10, 5, 0, 5),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        Icons.search,
+                                Container(
+                                  height: height * 0.067,
+                                  child: TextField(
+                                    style: TextStyle(color: blue1),
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          height * 0.014,
+                                          width * 0.014,
+                                          0,
+                                          width * 0.014),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          Icons.search,
+                                          color: blue1,
+                                          size: height * 0.028,
+                                        ),
+                                        onPressed: () {
+                                          if (MainScreen.inputText != '') {
+                                            MainScreen.taskId = 1;
+                                            MainScreen.result = 1;
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return ResultScreen();
+                                            }));
+                                          }
+                                        },
+                                      ),
+                                      labelText: 'Text Input',
+                                      labelStyle: TextStyle(
+                                        fontSize: height * 0.024,
                                         color: blue1,
-                                        size: 20,
                                       ),
-                                      onPressed: () {
-                                        if (MainScreen.inputText != '') {
-                                          MainScreen.taskId = 1;
-                                          MainScreen.result = 1;
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                            return ResultScreen();
-                                          }));
-                                        }
-                                      },
-                                    ),
-                                    labelText: 'Text Input',
-                                    labelStyle: TextStyle(
-                                      fontSize: 17,
-                                      color: blue1,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
                                       ),
                                     ),
+                                    onChanged: (value) {
+                                      MainScreen.inputText = value;
+                                    },
                                   ),
-                                  onChanged: (value) {
-                                    MainScreen.inputText = value;
-                                  },
                                 ),
                               ],
                             ),
                             SizedBox(
-                              height: 20,
+                              height: height * 0.028,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 iconButton(
                                     icon: Icons.camera_alt,
-                                    iconSize: 20,
+                                    iconSize: height * 0.0285,
                                     bgColor: blue1,
-                                    radius: 25,
+                                    radius: height * 0.036,
                                     onPressed: () async {
                                       if (current.imageInput == '1') {
                                         WidgetsFlutterBinding
@@ -243,9 +264,9 @@ class _MainScreenState extends State<MainScreen> {
                                     }),
                                 iconButton(
                                   icon: Icons.photo,
-                                  iconSize: 20,
+                                  iconSize: height * 0.0285,
                                   bgColor: blue1,
-                                  radius: 25,
+                                  radius: height * 0.036,
                                   onPressed: () {
                                     if (current.imageInput == '1') {
                                       MainScreen.taskId = 2;
@@ -260,9 +281,9 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 iconButton(
                                     icon: Icons.mic,
-                                    iconSize: 20,
+                                    iconSize: height * 0.0285,
                                     bgColor: blue1,
-                                    radius: 25,
+                                    radius: height * 0.036,
                                     onPressed: () {
                                       showModalBottomSheet(
                                           context: context,
@@ -270,9 +291,9 @@ class _MainScreenState extends State<MainScreen> {
                                     }),
                                 iconButton(
                                     icon: Icons.question_answer,
-                                    iconSize: 20,
+                                    iconSize: height * 0.0285,
                                     bgColor: blue1,
-                                    radius: 25,
+                                    radius: height * 0.036,
                                     onPressed: () {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
@@ -280,21 +301,22 @@ class _MainScreenState extends State<MainScreen> {
                                       }));
                                     }),
                               ],
-                            )
+                            ),
                           ],
                         )),
                   ),
                 ),
-                Expanded(
-                  flex: 3,
+                Container(
+                  height: height * 0.53,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
+                    padding: EdgeInsets.fromLTRB(height * 0.029, width * 0.042,
+                        height * 0.029, width * 0.055),
+                    child: Column(
                       children: [
                         Text(
                           'Apart from directly typing out the input to be translated, Linguist provides you with these options',
-                          style: TextStyle(color: instructions, fontSize: 15),
+                          style: TextStyle(
+                              color: instructions, fontSize: height * 0.021),
                         ),
                         points(
                             'Camera button: Real time Optical Character Recognition i.e. image to text translation (available for Latin based languages only)'),
@@ -303,10 +325,8 @@ class _MainScreenState extends State<MainScreen> {
                         points('Mic button: Audio to text translation.'),
                         points(
                             'Conversation button: Real time speech to speech translation.'),
-                        Text(
-                          'Real time text translation available from result screen.',
-                          style: TextStyle(color: instructions, fontSize: 15),
-                        ),
+                        points(
+                            'Real time text translation available from result screen.'),
                       ],
                     ),
                   ),
@@ -316,32 +336,36 @@ class _MainScreenState extends State<MainScreen> {
           })),
         ));
   }
-}
 
-Widget points(String text) {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-          child: Icon(
-            Icons.arrow_right,
-            color: instructions,
-            size: 15,
+  Widget points(String text) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width * 0.014,
+          0, MediaQuery.of(context).size.width * 0.014),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+                0, MediaQuery.of(context).size.width * 0.012, 0, 0),
+            child: Icon(
+              Icons.arrow_right,
+              color: instructions,
+              size: MediaQuery.of(context).size.height * 0.021,
+            ),
           ),
-        ),
-        SizedBox(
-          width: 8,
-        ),
-        Expanded(
-          child: Text(
-            text,
-            style: TextStyle(color: instructions, fontSize: 15),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.022,
           ),
-        ),
-      ],
-    ),
-  );
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                  color: instructions,
+                  fontSize: MediaQuery.of(context).size.height * 0.021),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

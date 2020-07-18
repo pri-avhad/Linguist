@@ -96,20 +96,26 @@ class _ConversationState extends State<Conversation> {
                 child: Icon(
                   Icons.error,
                   color: blue1,
-                  size: 30,
+                  size: MediaQuery.of(context).size.height * 0.042,
                 ),
               ),
               Text(
                 'Error!',
                 style: TextStyle(
-                    color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+                    color: blue1,
+                    fontSize: MediaQuery.of(context).size.height * 0.042,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
           actions: [
             RaisedButton(
               color: input,
-              child: Text('Okay'),
+              child: Text(
+                'Okay',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * 0.02),
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -120,13 +126,13 @@ class _ConversationState extends State<Conversation> {
               child: ListBody(
                 children: <Widget>[
                   SizedBox(
-                    height: 5,
+                    height: MediaQuery.of(context).size.height * 0.007,
                   ),
                   Text(
                     'No input text/audio/image found. \nReturn to Main screen and give input.\n$lastError',
                     style: TextStyle(
                       color: blue1,
-                      fontSize: 18,
+                      fontSize: MediaQuery.of(context).size.height * 0.025,
                     ),
                   ),
                 ],
@@ -210,6 +216,7 @@ class _ConversationState extends State<Conversation> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -222,6 +229,10 @@ class _ConversationState extends State<Conversation> {
                   Expanded(
                       flex: 12,
                       child: converse(
+                        size1: height * 0.025,
+                        size2: height * 0.042,
+                        radius: height * 0.035,
+                        icon: height * 0.028,
                         onPressed: () {
                           setState(() {
                             lang = 1;
@@ -241,6 +252,10 @@ class _ConversationState extends State<Conversation> {
                   Expanded(
                       flex: 12,
                       child: converse(
+                        size1: height * 0.025,
+                        size2: height * 0.042,
+                        radius: height * 0.035,
+                        icon: height * 0.028,
                         onPressed: () {
                           setState(() {
                             lang = 2;
@@ -257,52 +272,54 @@ class _ConversationState extends State<Conversation> {
                         language: current.lang2,
                       )),
                   Expanded(flex: 1, child: SizedBox()),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      height: 40,
-                      width: double.infinity,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        color: Color(0xFF094F66),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                current.lang1,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(color: Colors.white),
-                              ),
+                  Container(
+                    height: 40,
+                    width: double.infinity,
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      color: Color(0xFF094F66),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              current.lang1,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: height * 0.021),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Icon(
-                                Icons.compare_arrows,
-                                color: Colors.white,
-                              ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.compare_arrows,
+                              color: Colors.white,
+                              size: height * 0.021,
                             ),
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                current.lang2,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(color: Colors.white),
-                              ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              current.lang2,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: height * 0.021),
                             ),
-                          ],
-                        ),
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) => LanguageDrawer());
-                        },
+                          ),
+                        ],
                       ),
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) => LanguageDrawer());
+                      },
                     ),
-                  )
+                  ),
                 ],
               );
             })),

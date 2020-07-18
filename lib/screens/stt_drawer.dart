@@ -60,20 +60,26 @@ class _SttDrawerState extends State<SttDrawer> {
                 child: Icon(
                   Icons.error,
                   color: blue1,
-                  size: 30,
+                  size: MediaQuery.of(context).size.height * 0.042,
                 ),
               ),
               Text(
                 'Error!',
                 style: TextStyle(
-                    color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+                    color: blue1,
+                    fontSize: MediaQuery.of(context).size.height * 0.042,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
           actions: [
             RaisedButton(
               color: input,
-              child: Text('Okay'),
+              child: Text(
+                'Okay',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * 0.02),
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -90,7 +96,7 @@ class _SttDrawerState extends State<SttDrawer> {
                     'No input found. \nReturn to Main screen and give input.\n$lastError',
                     style: TextStyle(
                       color: blue1,
-                      fontSize: 18,
+                      fontSize: MediaQuery.of(context).size.height * 0.025,
                     ),
                   ),
                 ],
@@ -133,6 +139,8 @@ class _SttDrawerState extends State<SttDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Container(
       color: Color(0xFF757575),
       child: Container(
@@ -156,7 +164,7 @@ class _SttDrawerState extends State<SttDrawer> {
                         'Audio Input',
                         style: TextStyle(
                           color: blue1,
-                          fontSize: 35,
+                          fontSize: height * 0.05,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -186,7 +194,7 @@ class _SttDrawerState extends State<SttDrawer> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 25,
+                                        fontSize: height * 0.035,
                                         color: input),
                                   ),
                                 ],
@@ -202,8 +210,8 @@ class _SttDrawerState extends State<SttDrawer> {
                       children: <Widget>[
                         Expanded(
                             child: iconButton(
-                          radius: 25,
-                          iconSize: 20,
+                          radius: height * 0.035,
+                          iconSize: height * 0.0285,
                           bgColor: input,
                           icon: Icons.mic_none,
                           onPressed: () {
@@ -216,9 +224,9 @@ class _SttDrawerState extends State<SttDrawer> {
                         )),
                         Expanded(
                           child: iconButton(
-                            iconSize: 20,
+                            iconSize: height * 0.0285,
                             bgColor: output,
-                            radius: 25,
+                            radius: height * 0.035,
                             icon: Icons.search,
                             onPressed: () {
                               if (lastWords != '') {

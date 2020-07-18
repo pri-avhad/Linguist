@@ -23,6 +23,8 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     void changeFromActiveLanguageState(int index) {
       setState(() {
         for (int i = 0; i < languageData.length; i++) {
@@ -71,7 +73,7 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
           child: Text(
             languageData[i][0],
             style: TextStyle(
-                fontSize: 18.0,
+                fontSize: height * 0.025,
                 color: pressedFrom[i] ? Colors.black : Colors.white),
           ),
           color: pressedFrom[i] ? input : blue1,
@@ -95,7 +97,7 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
           child: Text(
             languageData[i][0],
             style: TextStyle(
-                fontSize: 18.0,
+                fontSize: height * 0.025,
                 color: pressedTo[i] ? Colors.black : Colors.white),
           ),
           color: pressedTo[i] ? output : blue1,
@@ -126,7 +128,7 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
                   child: Text(
                     'Languages',
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: height * 0.042,
                         color: Colors.white,
                         fontWeight: FontWeight.w600),
                   )),
@@ -155,7 +157,7 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
                                           child: Text(
                                             current.lang1,
                                             style: TextStyle(
-                                              fontSize: 18.0,
+                                              fontSize: height * 0.025,
                                               color: Colors.black,
                                             ),
                                           ),

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 Widget converse(
-    {Function onPressed, String text, Color color, String language}) {
+    {double size1,
+    double size2,
+    double radius,
+    double icon,
+    Function onPressed,
+    String text,
+    Color color,
+    String language}) {
   return Container(
     width: double.infinity,
     child: Material(
@@ -19,13 +26,13 @@ Widget converse(
                 language,
                 style: TextStyle(
                   color: color,
-                  fontSize: 18,
+                  fontSize: size1,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             Expanded(
-              flex: 8,
+              flex: 7,
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: [
@@ -33,7 +40,7 @@ Widget converse(
                     text,
                     style: TextStyle(
                       color: color,
-                      fontSize: 30,
+                      fontSize: size2,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -46,8 +53,8 @@ Widget converse(
                 child: iconButton(
                     icon: Icons.mic,
                     onPressed: onPressed,
-                    radius: 20,
-                    iconSize: 25,
+                    radius: radius,
+                    iconSize: icon,
                     bgColor: color),
               ),
             )
@@ -63,6 +70,7 @@ Widget result(
     Color color,
     String language,
     String title,
+    double titleSize,
     Widget output}) {
   return Container(
     width: double.infinity,
@@ -81,17 +89,17 @@ Widget result(
                 title,
                 style: TextStyle(
                   color: color,
-                  fontSize: 18,
+                  fontSize: titleSize,
                   fontWeight: FontWeight.w400,
                 ),
               ),
             ),
             Expanded(
-              flex: 8,
+              flex: 7,
               child: output,
             ),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,7 +110,7 @@ Widget result(
                       language,
                       style: TextStyle(
                         color: color,
-                        fontSize: 19,
+                        fontSize: titleSize,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -112,7 +120,7 @@ Widget result(
                     child: Icon(
                       Icons.keyboard_arrow_down,
                       color: color,
-                      size: 20,
+                      size: titleSize,
                     ),
                   ),
                   Expanded(
@@ -124,7 +132,7 @@ Widget result(
                         icon: Icon(
                           Icons.volume_up,
                           color: color,
-                          size: 18,
+                          size: titleSize,
                         ),
                         onPressed: onPressedSpeak,
                       ),

@@ -163,20 +163,26 @@ class _ResultScreenState extends State<ResultScreen> {
                 child: Icon(
                   Icons.error,
                   color: blue1,
-                  size: 30,
+                  size: MediaQuery.of(context).size.height * 0.042,
                 ),
               ),
               Text(
                 'Error!',
                 style: TextStyle(
-                    color: blue1, fontSize: 30, fontWeight: FontWeight.w500),
+                    color: blue1,
+                    fontSize: MediaQuery.of(context).size.height * 0.042,
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
           actions: [
             RaisedButton(
               color: input,
-              child: Text('Okay'),
+              child: Text(
+                'Okay',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * 0.02),
+              ),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return MainScreen();
@@ -189,13 +195,13 @@ class _ResultScreenState extends State<ResultScreen> {
               child: ListBody(
                 children: <Widget>[
                   SizedBox(
-                    height: 5,
+                    height: MediaQuery.of(context).size.height * 0.007,
                   ),
                   Text(
                     'No text input found. \nReturn to Main screen to give an input.',
                     style: TextStyle(
                       color: blue1,
-                      fontSize: 18,
+                      fontSize: MediaQuery.of(context).size.height * 0.025,
                     ),
                   ),
                 ],
@@ -247,6 +253,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () {
         backButton();
@@ -285,7 +292,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                         MainScreen.translatedText,
                                         style: TextStyle(
                                           color: output,
-                                          fontSize: 30,
+                                          fontSize: height * 0.042,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -302,12 +309,14 @@ class _ResultScreenState extends State<ResultScreen> {
                             });
                           },
                           title: 'Translated text:',
-                          language: current.lang2),
+                          language: current.lang2,
+                          titleSize: height * 0.025),
                     ),
                     Expanded(flex: 1, child: Container()),
                     Expanded(
                       flex: 15,
                       child: result(
+                          titleSize: height * 0.025,
                           color: input,
                           output: (MainScreen.result == 1)
                               ? Container(
@@ -398,7 +407,7 @@ class _ResultScreenState extends State<ResultScreen> {
         cursorColor: input,
         style: TextStyle(
           color: input,
-          fontSize: 30,
+          fontSize: MediaQuery.of(context).size.height * 0.042,
           fontWeight: FontWeight.w500,
         ),
         onChanged: (value) {
@@ -427,7 +436,7 @@ class _ResultScreenState extends State<ResultScreen> {
           MainScreen.inputText,
           style: TextStyle(
             color: input,
-            fontSize: 30,
+            fontSize: MediaQuery.of(context).size.height * 0.042,
             fontWeight: FontWeight.w500,
           ),
         ));
