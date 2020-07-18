@@ -217,7 +217,7 @@ class _SttDrawerState extends State<SttDrawer> {
                           onPressed: () {
                             setState(() {
                               if (!hasSpeech || speech.isListening == false) {
-                                startListening(current.lang1);
+                                startListening(current.translateId1);
                               }
                             });
                           },
