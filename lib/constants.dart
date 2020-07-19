@@ -32,23 +32,3 @@ List<List<String>> languageData = [
   ['Urdu', 'ur', '0'],
   ['Arabic', 'ar', '0'],
 ];
-
-List<List> offlineLangSet = [
-  ['English', 'en', 'en-US'],
-  ['French', 'fr', 'fr-FR'],
-  ['Italian', 'it', 'it-IT'],
-  ['Portuguese', 'pt', 'pt-PT'], //ToDo check portuguese code
-  ['Romanian', 'ro', 'ro-RO'],
-  ['Spanish', 'es', 'es-ES'],
-  ['Dutch', 'nl', 'nl-NL'],
-  ['Finnish', 'fi', 'fi-FI'],
-  ['German', 'de', 'de-DE'],
-  ['Polish', 'pl', 'pl-PL'],
-  ['Kannada', 'kn', 'kn-IN'],
-  ['Marathi', 'mr', 'mr-IN'],
-  ['Gujarati', 'gu', 'gu-IN'],
-  ['Hindi', 'hi', 'hi-IN'],
-  ['Tamil', 'tm', 'ta-IN'], //ToDo check tamil code
-  ['Urdu', 'ur', 'ur-PK'], //ToDo check urdu code
-  ['Arabic', 'ar', 'ar-SA'],
-];

@@ -52,57 +52,60 @@ class _SttDrawerState extends State<SttDrawer> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                child: Icon(
-                  Icons.error,
-                  color: blue1,
-                  size: MediaQuery.of(context).size.height * 0.042,
-                ),
-              ),
-              Text(
-                'Error!',
-                style: TextStyle(
-                    color: blue1,
-                    fontSize: MediaQuery.of(context).size.height * 0.042,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          actions: [
-            RaisedButton(
-              color: input,
-              child: Text(
-                'Okay',
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.02),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-          content: SingleChildScrollView(
-            child: Center(
-              child: ListBody(
-                children: <Widget>[
-                  SizedBox(
-                    height: 5,
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraint) {
+            return AlertDialog(
+              title: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                    child: Icon(
+                      Icons.error,
+                      color: blue1,
+                      size: constraint.maxHeight * 0.0518,
+                    ),
                   ),
                   Text(
-                    'No input found. \nReturn to Main screen and give input.\n$lastError',
+                    'Error!',
                     style: TextStyle(
-                      color: blue1,
-                      fontSize: MediaQuery.of(context).size.height * 0.025,
-                    ),
+                        color: blue1,
+                        fontSize: constraint.maxHeight * 0.0518,
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
-            ),
-          ),
+              actions: [
+                RaisedButton(
+                  color: input,
+                  child: Text(
+                    'Ok',
+                    style: TextStyle(fontSize: constraint.maxHeight * 0.0251),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+              content: SingleChildScrollView(
+                child: Center(
+                  child: ListBody(
+                    children: <Widget>[
+                      SizedBox(
+                        height: constraint.maxHeight * 0.018,
+                      ),
+                      Text(
+                        'No input found. \nReturn to Main screen and give input.\n$lastError',
+                        style: TextStyle(
+                          color: blue1,
+                          fontSize: constraint.maxHeight * 0.0251,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -132,14 +135,12 @@ class _SttDrawerState extends State<SttDrawer> {
   void resultListener(SpeechRecognitionResult result) {
     setState(() {
       lastWords = "${result.recognizedWords}";
-      //lastWords = "${result.recognizedWords} - ${result.finalResult}";
     });
     print(lastWords);
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
       color: Color(0xFF757575),

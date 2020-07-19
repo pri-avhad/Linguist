@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:linguist/constants.dart';
 import 'package:linguist/current_model.dart';
 import 'package:linguist/screens/result_screen.dart';
 import 'package:provider/provider.dart';
@@ -37,15 +36,12 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       widget.camera,
       ResolutionPreset.high,
     );
-
-    // Next, initialize the controller.
     _initializeControllerFuture = _controller.initialize();
     scan();
   }
 
   Future<void> scan() async {
     try {
-      // Ensure that the camera is initialized.
       await _initializeControllerFuture;
       final path = join(
         (await getTemporaryDirectory()).path,
@@ -76,7 +72,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   void dispose() {
     stop = 1;
-    // Dispose of the controller when the widget is disposed.
     _controller.dispose();
     super.dispose();
   }
@@ -86,8 +81,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(img);
     TextRecognizer ourtext = FirebaseVision.instance.textRecognizer();
     VisionText readtext = await ourtext.processImage(ourImage);
-
-    //extracting each text block in which we extract each line and in which we extract each word(element)
     for (TextBlock block in readtext.blocks) {
       for (TextLine line in block.lines) {
         for (TextElement element in line.elements) {
@@ -108,7 +101,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           future: _initializeControllerFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              // If the Future is complete, display the preview.
               return Stack(
                 alignment: FractionalOffset.center,
                 children: <Widget>[
@@ -137,7 +129,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                                     child: Text(translatedResult,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 20.0,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02857,
                                           color: Colors.black,
                                         )),
                                   ),
@@ -156,40 +151,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             }
           },
         ),
-//        floatingActionButton: FloatingActionButton(
-//          backgroundColor: blue1,
-//          child: Icon(
-//            Icons.center_focus_weak,
-//            size: 20.0,
-//          ),
-//          onPressed: () async {
-//            setState(() {
-//              translatedResult = 'LOADING...';
-//            });
-//            try {
-//              // Ensure that the camera is initialized.
-//              await _initializeControllerFuture;
-//              final path = join(
-//                (await getTemporaryDirectory()).path,
-//                '${DateTime.now()}.png',
-//              );
-//
-//              await _controller.takePicture(path);
-//              File imageFile = File(path);
-//              String result = await textDetect(imageFile);
-//              String text = await FirebaseLanguage.instance
-//                  .languageTranslator(
-//                      current.translateId1, current.translateId2)
-//                  .processText(result);
-//              setState(() {
-//                translatedResult = text;
-//                print(translatedResult);
-//              });
-//            } catch (e) {
-//              print(e);
-//            }
-//          },
-//        ),
       );
     });
   }

@@ -143,7 +143,7 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Expanded(
-                              flex: 3,
+                              flex: 5,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,14 +179,14 @@ class _LanguageDrawerState extends State<LanguageDrawer> {
                                     child: Icon(
                                       Icons.compare_arrows,
                                       color: Colors.white,
-                                      size: 16,
+                                      size: height * 0.025,
                                     ),
                                   )
                                 ],
                               ),
                             ),
                             Expanded(
-                              flex: 3,
+                              flex: 5,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
