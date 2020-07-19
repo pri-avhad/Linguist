@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
 import 'package:linguist/tile.dart';
 
+import '../constants.dart';
+
 var imageFile;
 var firstCamera;
 
@@ -236,7 +238,18 @@ class _MainScreenState extends State<MainScreen> {
                                           fontSize:
                                               constraints.maxHeight * 0.024,
                                         ),
+                                        cursorColor: blue1,
                                         decoration: InputDecoration(
+                                          focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              borderSide: BorderSide(
+                                                  color: blue1, width: 1.5)),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              borderSide: BorderSide(
+                                                  color: blue1, width: 1.5)),
                                           contentPadding: EdgeInsets.fromLTRB(
                                               constraints.maxHeight * 0.014,
                                               constraints.maxWidth * 0.014,
@@ -266,11 +279,6 @@ class _MainScreenState extends State<MainScreen> {
                                             fontSize:
                                                 constraints.maxHeight * 0.02,
                                             color: blue1,
-                                          ),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
                                           ),
                                         ),
                                         onChanged: (value) {
