@@ -11,6 +11,7 @@ import 'package:linguist/widgets.dart';
 import 'package:linguist/screens/conversation.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
+import 'package:linguist/tile.dart';
 
 var imageFile;
 var firstCamera;
@@ -25,6 +26,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldkey= new GlobalKey<ScaffoldState>();
   Future<void> _showMyDialog(String lang) async {
     return showDialog<void>(
         context: context,
@@ -94,9 +96,90 @@ class _MainScreenState extends State<MainScreen> {
           SystemNavigator.pop();
         },
         child: Scaffold(
+          drawer: new Drawer(
+            child: ListView(
+              children: <Widget>[
+                DrawerHeader(
+
+                  child: Text('Offline Languages'),
+                  decoration: BoxDecoration(color: Colors.blue),
+
+                ),
+                tile(
+                  language: 'English',
+                  languageCode: 'en',
+                ),
+                tile(
+                  language: 'French',
+                  languageCode: 'fr',
+                ),
+                tile(
+                  language: 'Italian',
+                  languageCode: 'it',
+                ),
+                tile(
+                  language: 'Portuguese',
+                  languageCode: 'pt',
+                ),
+                tile(
+                  language: 'Romanian',
+                  languageCode: 'ro',
+                ),
+                tile(
+                  language: 'Spanish',
+                  languageCode: 'es',
+                ),
+                tile(
+                  language: 'Dutch',
+                  languageCode: 'nl',
+                ),
+                tile(
+                  language: 'Finnish',
+                  languageCode: 'fi',
+                ),
+                tile(
+                  language: 'German',
+                  languageCode: 'de',
+                ),
+                tile(
+                  language: 'Polish',
+                  languageCode: 'pl',
+                ),
+                tile(
+                  language: 'Kannada',
+                  languageCode: 'kn',
+                ),
+                tile(
+                  language: 'Marathi',
+                  languageCode: 'mr',
+                ),
+                tile(
+                  language: 'Gujarati',
+                  languageCode: 'gu',
+                ),
+                tile(
+                  language: 'Hindi',
+                  languageCode: 'hi',
+                ),
+                tile(
+                  language: 'Tamil',
+                  languageCode: 'ta',
+                ),
+                tile(
+                  language: 'Urdu',
+                  languageCode: 'ur',
+                ),
+                tile(
+                  language: 'Arabic',
+                  languageCode: 'ar',
+                ),
+              ],
+            ),
+          ),
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           body: SafeArea(
+
               child: Consumer<CurrentLanguages>(builder: (context, current, _) {
             return ListView(
               scrollDirection: Axis.vertical,
@@ -129,6 +212,7 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                     onPressed: () {
+                                      _scaffoldkey.currentState.openDrawer();
                                       //TODO add the settings drawer
                                     },
                                   ),
@@ -358,6 +442,88 @@ class _MainScreenState extends State<MainScreen> {
           })),
         ));
   }
+//  Widget rdrawer(){
+//    return Drawer(
+//      child: ListView(
+//        children: <Widget>[
+//          DrawerHeader(
+//
+//            child: Text('Offline Languages'),
+//            decoration: BoxDecoration(color: Colors.blue),
+//
+//          ),
+//          tile(
+//            language: 'English',
+//            languageCode: 'en',
+//          ),
+//          tile(
+//            language: 'French',
+//            languageCode: 'fr',
+//          ),
+//          tile(
+//            language: 'Italian',
+//            languageCode: 'it',
+//          ),
+//          tile(
+//            language: 'Portuguese',
+//            languageCode: 'pt',
+//          ),
+//          tile(
+//            language: 'Romanian',
+//            languageCode: 'ro',
+//          ),
+//          tile(
+//            language: 'Spanish',
+//            languageCode: 'es',
+//          ),
+//          tile(
+//            language: 'Dutch',
+//            languageCode: 'nl',
+//          ),
+//          tile(
+//            language: 'Finnish',
+//            languageCode: 'fi',
+//          ),
+//          tile(
+//            language: 'German',
+//            languageCode: 'de',
+//          ),
+//          tile(
+//            language: 'Polish',
+//            languageCode: 'pl',
+//          ),
+//          tile(
+//            language: 'Kannada',
+//            languageCode: 'kn',
+//          ),
+//          tile(
+//            language: 'Marathi',
+//            languageCode: 'mr',
+//          ),
+//          tile(
+//            language: 'Gujarati',
+//            languageCode: 'gu',
+//          ),
+//          tile(
+//            language: 'Hindi',
+//            languageCode: 'hi',
+//          ),
+//          tile(
+//            language: 'Tamil',
+//            languageCode: 'ta',
+//          ),
+//          tile(
+//            language: 'Urdu',
+//            languageCode: 'ur',
+//          ),
+//          tile(
+//            language: 'Arabic',
+//            languageCode: 'ar',
+//          ),
+//        ],
+//      ),
+//    );
+//  }
 
   Widget points(String text) {
     return Padding(

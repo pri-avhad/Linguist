@@ -12,6 +12,13 @@ const double volume = 1.0;
 const double pitch = 1.0;
 const double rate = 0.8;
 
+const online = TextStyle(fontSize: 20.0, color: Colors.black);
+const offline = TextStyle(
+  fontSize: 20.0,
+  color: input,
+);
+
+
 // name,ocr code,translate code,
 List<List<String>> languageData = [
   ['English', 'en', '1'],
