@@ -26,7 +26,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldkey= new GlobalKey<ScaffoldState>();
+  //final GlobalKey<ScaffoldState> _scaffoldkey= new GlobalKey<ScaffoldState>();
+
   Future<void> _showMyDialog(String lang) async {
     return showDialog<void>(
         context: context,
@@ -99,11 +100,19 @@ class _MainScreenState extends State<MainScreen> {
           drawer: new Drawer(
             child: ListView(
               children: <Widget>[
-                DrawerHeader(
+                Container(
+                  height: height*0.071,
+                  child: DrawerHeader(
 
-                  child: Text('Offline Languages'),
-                  decoration: BoxDecoration(color: Colors.blue),
+                    child: Text(
+                        'Offline Languages',
+                    style: TextStyle(
+                        fontSize: height * 0.0285,
+                      color: appBar,
+                    )),
+                    decoration: BoxDecoration(color: blue1),
 
+                  ),
                 ),
                 tile(
                   language: 'English',
@@ -212,7 +221,7 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      _scaffoldkey.currentState.openDrawer();
+                                      Scaffold.of(context).openDrawer();
                                       //TODO add the settings drawer
                                     },
                                   ),

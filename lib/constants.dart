@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 const Color appBar = Color(0xFFFFFFFF);
 const Color BgColor = Color(0xFFFFFFFF);
 const Color blue1 = Color(0xFF094F66);
@@ -11,12 +12,6 @@ const Color instructions = Color(0xFF959595);
 const double volume = 1.0;
 const double pitch = 1.0;
 const double rate = 0.8;
-
-const online = TextStyle(fontSize: 20.0, color: Colors.black);
-const offline = TextStyle(
-  fontSize: 20.0,
-  color: input,
-);
 
 
 // name,ocr code,translate code,

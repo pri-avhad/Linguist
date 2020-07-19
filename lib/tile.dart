@@ -47,7 +47,7 @@ class _tileState extends State<tile> {
     } else if (_state == 2) {
       return Icon(
         Icons.delete,
-        color: Colors.black,
+        color: instructions,
       );
     }
   }
@@ -61,10 +61,17 @@ class _tileState extends State<tile> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return ListTile(
         title: Text(
           widget.language,
-          style: downloadState ? offline : online,
+          style: downloadState ? TextStyle(
+            fontSize: height * 0.018,
+              color: instructions,
+          ) : TextStyle(
+              fontSize: height * 0.018,
+              color: blue1
+          )
         ),
         //trailing: Icon(Icons.arrow_downward),
         onTap: () async {
