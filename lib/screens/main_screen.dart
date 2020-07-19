@@ -455,7 +455,7 @@ class _MainScreenState extends State<MainScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text('Download Languages',
                       style: TextStyle(
-                        fontSize: constraint.maxHeight * 0.25,
+                        fontSize: constraint.maxHeight * 0.245,
                         color: appBar,
                       )),
                 ),

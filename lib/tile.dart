@@ -58,10 +58,10 @@ class _tileState extends State<tile> {
       title: Text(widget.language,
           style: downloadState
               ? TextStyle(
-                  fontSize: height * 0.024,
+                  fontSize: height * 0.0224,
                   color: instructions,
                 )
-              : TextStyle(fontSize: height * 0.024, color: blue1)),
+              : TextStyle(fontSize: height * 0.0224, color: blue1)),
       onTap: () async {
         if (_state == 1 || _state == 2) {
           setState(() {
