@@ -98,97 +98,14 @@ class _MainScreenState extends State<MainScreen> {
         },
         child: Scaffold(
           drawer: new Drawer(
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  height: height*0.071,
-                  child: DrawerHeader(
-
-                    child: Text(
-                        'Offline Languages',
-                    style: TextStyle(
-                        fontSize: height * 0.0285,
-                      color: appBar,
-                    )),
-                    decoration: BoxDecoration(color: blue1),
-
-                  ),
-                ),
-                tile(
-                  language: 'English',
-                  languageCode: 'en',
-                ),
-                tile(
-                  language: 'French',
-                  languageCode: 'fr',
-                ),
-                tile(
-                  language: 'Italian',
-                  languageCode: 'it',
-                ),
-                tile(
-                  language: 'Portuguese',
-                  languageCode: 'pt',
-                ),
-                tile(
-                  language: 'Romanian',
-                  languageCode: 'ro',
-                ),
-                tile(
-                  language: 'Spanish',
-                  languageCode: 'es',
-                ),
-                tile(
-                  language: 'Dutch',
-                  languageCode: 'nl',
-                ),
-                tile(
-                  language: 'Finnish',
-                  languageCode: 'fi',
-                ),
-                tile(
-                  language: 'German',
-                  languageCode: 'de',
-                ),
-                tile(
-                  language: 'Polish',
-                  languageCode: 'pl',
-                ),
-                tile(
-                  language: 'Kannada',
-                  languageCode: 'kn',
-                ),
-                tile(
-                  language: 'Marathi',
-                  languageCode: 'mr',
-                ),
-                tile(
-                  language: 'Gujarati',
-                  languageCode: 'gu',
-                ),
-                tile(
-                  language: 'Hindi',
-                  languageCode: 'hi',
-                ),
-                tile(
-                  language: 'Tamil',
-                  languageCode: 'ta',
-                ),
-                tile(
-                  language: 'Urdu',
-                  languageCode: 'ur',
-                ),
-                tile(
-                  language: 'Arabic',
-                  languageCode: 'ar',
-                ),
-              ],
-            ),
+            child: ListView.builder(
+                itemCount: offlineLangSet.length + 1,
+                itemBuilder: (BuildContext context, int index) =>
+                    offlineLanguageTiles(index)),
           ),
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           body: SafeArea(
-
               child: Consumer<CurrentLanguages>(builder: (context, current, _) {
             return ListView(
               scrollDirection: Axis.vertical,
@@ -451,88 +368,6 @@ class _MainScreenState extends State<MainScreen> {
           })),
         ));
   }
-//  Widget rdrawer(){
-//    return Drawer(
-//      child: ListView(
-//        children: <Widget>[
-//          DrawerHeader(
-//
-//            child: Text('Offline Languages'),
-//            decoration: BoxDecoration(color: Colors.blue),
-//
-//          ),
-//          tile(
-//            language: 'English',
-//            languageCode: 'en',
-//          ),
-//          tile(
-//            language: 'French',
-//            languageCode: 'fr',
-//          ),
-//          tile(
-//            language: 'Italian',
-//            languageCode: 'it',
-//          ),
-//          tile(
-//            language: 'Portuguese',
-//            languageCode: 'pt',
-//          ),
-//          tile(
-//            language: 'Romanian',
-//            languageCode: 'ro',
-//          ),
-//          tile(
-//            language: 'Spanish',
-//            languageCode: 'es',
-//          ),
-//          tile(
-//            language: 'Dutch',
-//            languageCode: 'nl',
-//          ),
-//          tile(
-//            language: 'Finnish',
-//            languageCode: 'fi',
-//          ),
-//          tile(
-//            language: 'German',
-//            languageCode: 'de',
-//          ),
-//          tile(
-//            language: 'Polish',
-//            languageCode: 'pl',
-//          ),
-//          tile(
-//            language: 'Kannada',
-//            languageCode: 'kn',
-//          ),
-//          tile(
-//            language: 'Marathi',
-//            languageCode: 'mr',
-//          ),
-//          tile(
-//            language: 'Gujarati',
-//            languageCode: 'gu',
-//          ),
-//          tile(
-//            language: 'Hindi',
-//            languageCode: 'hi',
-//          ),
-//          tile(
-//            language: 'Tamil',
-//            languageCode: 'ta',
-//          ),
-//          tile(
-//            language: 'Urdu',
-//            languageCode: 'ur',
-//          ),
-//          tile(
-//            language: 'Arabic',
-//            languageCode: 'ar',
-//          ),
-//        ],
-//      ),
-//    );
-//  }
 
   Widget points(String text) {
     return Padding(
@@ -561,4 +396,141 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
+  Widget offlineLanguageTiles(int index) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    if (index == 0) {
+      return Container(
+        height: height * 0.071,
+        child: DrawerHeader(
+          child: Text('Offline Languages',
+              style: TextStyle(
+                fontSize: height * 0.0285,
+                color: appBar,
+              )),
+          decoration: BoxDecoration(color: blue1),
+        ),
+      );
+    } else {
+      return tile(
+        language: offlineLangSet[index - 1][0],
+        languageCode: offlineLangSet[index - 1][1],
+        bcp47: offlineLangSet[index - 1][2],
+      );
+    }
+  }
 }
+
+//    List<Widget> temp = List(offlineLangSet.length);
+//    for (int i = 0; i < offlineLangSet.length; i++) {
+//      if (flag == 0) {
+//        temp[i] = Container(
+//          height: height * 0.071,
+//          child: DrawerHeader(
+//            child: Text('Offline Languages',
+//                style: TextStyle(
+//                  fontSize: height * 0.0285,
+//                  color: appBar,
+//                )),
+//            decoration: BoxDecoration(color: blue1),
+//          ),
+//        );
+//        flag = 1;
+//      } else {
+//        temp[i] = tile(
+//          language: offlineLangSet[i - 1][0],
+//          languageCode: offlineLangSet[i - 1][1],
+//          bcp47: offlineLangSet[i - 1][2],
+//        );
+//      }
+//    }
+//  }
+//}
+
+//ListView(
+//              children: <Widget>[
+//                Container(
+//                  height: height*0.071,
+//                  child: DrawerHeader(
+//
+//                    child: Text(
+//                        'Offline Languages',
+//                    style: TextStyle(
+//                        fontSize: height * 0.0285,
+//                      color: appBar,
+//                    )),
+//                    decoration: BoxDecoration(color: blue1),
+//
+//                  ),
+//                ),
+//                tile(
+//                  language: 'English',
+//                  languageCode: 'en',
+//                ),
+//                tile(
+//                  language: 'French',
+//                  languageCode: 'fr',
+//                ),
+//                tile(
+//                  language: 'Italian',
+//                  languageCode: 'it',
+//                ),
+//                tile(
+//                  language: 'Portuguese',
+//                  languageCode: 'pt',
+//                ),
+//                tile(
+//                  language: 'Romanian',
+//                  languageCode: 'ro',
+//                ),
+//                tile(
+//                  language: 'Spanish',
+//                  languageCode: 'es',
+//                ),
+//                tile(
+//                  language: 'Dutch',
+//                  languageCode: 'nl',
+//                ),
+//                tile(
+//                  language: 'Finnish',
+//                  languageCode: 'fi',
+//                ),
+//                tile(
+//                  language: 'German',
+//                  languageCode: 'de',
+//                ),
+//                tile(
+//                  language: 'Polish',
+//                  languageCode: 'pl',
+//                ),
+//                tile(
+//                  language: 'Kannada',
+//                  languageCode: 'kn',
+//                ),
+//                tile(
+//                  language: 'Marathi',
+//                  languageCode: 'mr',
+//                ),
+//                tile(
+//                  language: 'Gujarati',
+//                  languageCode: 'gu',
+//                ),
+//                tile(
+//                  language: 'Hindi',
+//                  languageCode: 'hi',
+//                ),
+//                tile(
+//                  language: 'Tamil',
+//                  languageCode: 'ta',
+//                ),
+//                tile(
+//                  language: 'Urdu',
+//                  languageCode: 'ur',
+//                ),
+//                tile(
+//                  language: 'Arabic',
+//                  languageCode: 'ar',
+//                ),
+//              ],
+//            ),

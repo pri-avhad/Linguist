@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 const Color appBar = Color(0xFFFFFFFF);
 const Color BgColor = Color(0xFFFFFFFF);
 const Color blue1 = Color(0xFF094F66);
@@ -12,7 +11,6 @@ const Color instructions = Color(0xFF959595);
 const double volume = 1.0;
 const double pitch = 1.0;
 const double rate = 0.8;
-
 
 // name,ocr code,translate code,
 List<List<String>> languageData = [
@@ -33,4 +31,24 @@ List<List<String>> languageData = [
   ['Tamil', 'tm', '0'],
   ['Urdu', 'ur', '0'],
   ['Arabic', 'ar', '0'],
+];
+
+List<List> offlineLangSet = [
+  ['English', 'en', 'en-US'],
+  ['French', 'fr', 'fr-FR'],
+  ['Italian', 'it', 'it-IT'],
+  ['Portuguese', 'pt', 'pt-PT'], //ToDo check portuguese code
+  ['Romanian', 'ro', 'ro-RO'],
+  ['Spanish', 'es', 'es-ES'],
+  ['Dutch', 'nl', 'nl-NL'],
+  ['Finnish', 'fi', 'fi-FI'],
+  ['German', 'de', 'de-DE'],
+  ['Polish', 'pl', 'pl-PL'],
+  ['Kannada', 'kn', 'kn-IN'],
+  ['Marathi', 'mr', 'mr-IN'],
+  ['Gujarati', 'gu', 'gu-IN'],
+  ['Hindi', 'hi', 'hi-IN'],
+  ['Tamil', 'tm', 'ta-IN'], //ToDo check tamil code
+  ['Urdu', 'ur', 'ur-PK'], //ToDo check urdu code
+  ['Arabic', 'ar', 'ar-SA'],
 ];
