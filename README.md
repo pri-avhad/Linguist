@@ -1,16 +1,13 @@
 # linguist
 
-A new Flutter application.
+We, MetAFour at Linguist have developed an application to provide our users with the facility of translation between a plethora of languages by means of audio-visual data input.
 
-## Getting Started
+Languages:
+English, Hindi, Bengali, Marathi, Gujarati, Kannada, Telugu, Tamil, Chinese, Spanish, Korean, Urdu, Japanese, French, Italian, German, Russian, Portuguese, Romanian, Dutch, Finnish, Polish and Arabic
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Features:
+• Real-time text translation in languages
+• Real-time Optical Character Recognition (OCR) in all Latin-based languages
+• Real-time speech to speech translation in languages
+• Speech to text conversion for all languages
+• Text to speech feature for all languages
